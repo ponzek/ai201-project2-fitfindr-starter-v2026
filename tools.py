@@ -176,19 +176,20 @@ def create_fit_card(outfit: str, new_item: dict) -> str:
     Write a short caption someone would actually post about the find.
     """
     outfit_text = outfit.strip() if outfit else ""
-    price_val = new_item.get("price", 0.0)
-    platform_val = new_item.get("platform", "online thrift")
+    raw_price = new_item.get("price", 0.0)
+    price_str = f"${int(raw_price)}" if isinstance(raw_price, (int, float)) and raw_price == int(raw_price) else f"${raw_price:.2f}"
+    platform_val = (new_item.get("platform") or "online thrift").capitalize()
     title_val = new_item.get("title", "thrift find")
 
     if not outfit_text:
         prompt = (
             "Write a short, engaging 2 to 4 sentence social media caption celebrating this thrift find:\n"
             f"- Item: {title_val}\n"
-            f"- Price: ${price_val}\n"
+            f"- Price: {price_str}\n"
             f"- Platform: {platform_val}\n"
             f"- Description: {new_item.get('description', '')}\n\n"
             "Requirements:\n"
-            f"- Mention the item name, price (${price_val}), and platform ({platform_val}) each at least once.\n"
+            f"- Mention the item name, price ({price_str}), and platform ({platform_val}) each at least once.\n"
             "- Sound like a real social media post celebrating the find.\n"
             "- Keep the length between 2 and 4 sentences."
         )
@@ -196,12 +197,12 @@ def create_fit_card(outfit: str, new_item: dict) -> str:
         prompt = (
             "Write a short, engaging 2 to 4 sentence social media caption celebrating this thrift find:\n"
             f"- Item: {title_val}\n"
-            f"- Price: ${price_val}\n"
+            f"- Price: {price_str}\n"
             f"- Platform: {platform_val}\n"
             f"- Description: {new_item.get('description', '')}\n"
             f"- Outfit Idea: {outfit_text}\n\n"
             "Requirements:\n"
-            f"- Mention the item, price (${price_val}), and platform ({platform_val}) each at least once.\n"
+            f"- Mention the item, price ({price_str}), and platform ({platform_val}) each at least once.\n"
             "- Incorporate the styling vibe based on the outfit idea.\n"
             "- Sound like a genuine, exciting personal post rather than a product ad.\n"
             "- Keep the length between 2 and 4 sentences."

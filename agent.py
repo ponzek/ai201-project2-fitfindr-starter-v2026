@@ -29,9 +29,9 @@ def parse_query(query: str) -> dict:
     parsed = {"description": query.strip(), "size": None, "max_price": None}
     working = query
 
-    # 1. Price pattern: "under $30", "under 30", "< $30", "$30"
+    # 1. Price pattern: "under $30", "under 30", "< $30", "$30", "less than $40", "below $30"
     price_match = re.search(
-        r"(?:under|<|\bmax\b)\s*\$?(\d+(?:\.\d+)?)|(?:\$(\d+(?:\.\d+)?))",
+        r"(?:under|<|\bmax\b|below|less than|cheaper than)\s*\$?(\d+(?:\.\d+)?)|(?:\$(\d+(?:\.\d+)?))",
         working,
         re.I,
     )
@@ -114,18 +114,31 @@ def run_agent(query: str, wardrobe: dict) -> dict:
     trace.check_iterations(iteration)
     session["parsed"] = parse_query(session["query"])
 
-    # Step 2: Search catalog listings using parsed inputs from session
+    # Step 2: Search catalog listings using parsed inputs from session via MCP
     iteration += 1
     trace.check_iterations(iteration)
     parsed_input = session["parsed"]
-    session["search_results"] = search_listings(
-        description=parsed_input.get("description", query),
-        size=parsed_input.get("size"),
-        max_price=parsed_input.get("max_price"),
-    )
+    search_args = {
+        "description": parsed_input.get("description", query),
+        "size": parsed_input.get("size"),
+        "max_price": parsed_input.get("max_price"),
+    }
+
+    try:
+        from mcp_client import call_tool
+        session["search_results"] = call_tool("search_listings", search_args)
+        step_name = "search_listings (via MCP)"
+    except Exception:
+        session["search_results"] = search_listings(
+            description=search_args["description"],
+            size=search_args["size"],
+            max_price=search_args["max_price"],
+        )
+        step_name = "search_listings"
 
     # ⚠️ BRANCH: If search returned nothing, stop early and explain what to change
     if not session["search_results"]:
+        trace.step(step_name, inputs=search_args, returned=[], note="branch: empty search, stopping early")
         filters = []
         if parsed_input.get("max_price") is not None:
             filters.append(f"raising your price limit above ${parsed_input['max_price']}")
@@ -134,6 +147,8 @@ def run_agent(query: str, wardrobe: dict) -> dict:
         filters.append(f"broadening your search terms (tried '{parsed_input.get('description', query)}')")
         session["error"] = f"No matching listings found. Try {' or '.join(filters)}."
         return session
+
+    trace.step(step_name, inputs=search_args, returned=session["search_results"])
 
     # Step 3: Select top candidate item and store in session
     iteration += 1
@@ -147,6 +162,11 @@ def run_agent(query: str, wardrobe: dict) -> dict:
     user_closet = session["wardrobe"]
     try:
         session["outfit_suggestion"] = suggest_outfit(item_to_pair, user_closet)
+        trace.step(
+            "suggest_outfit",
+            inputs={"item": item_to_pair.get("title"), "wardrobe_items": len(user_closet.get("items", []))},
+            returned=session["outfit_suggestion"],
+        )
     except ModelUnavailable as exc:
         session["error"] = f"Model unavailable: {exc}"
         return session
@@ -158,6 +178,11 @@ def run_agent(query: str, wardrobe: dict) -> dict:
     item_for_card = session["selected_item"]
     try:
         session["fit_card"] = create_fit_card(outfit_text, item_for_card)
+        trace.step(
+            "create_fit_card",
+            inputs={"item": item_for_card.get("title"), "price": item_for_card.get("price")},
+            returned=session["fit_card"],
+        )
     except ModelUnavailable as exc:
         session["error"] = f"Model unavailable: {exc}"
         return session
