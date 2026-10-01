@@ -39,7 +39,7 @@
 
 ## What This Does
 
-<!-- Three or four sentences: what a user asks for, and what they get back. -->
+FitFindr is an AI-powered personal shopping and styling assistant for secondhand and vintage fashion. A user asks for an aesthetic, garment type, size, or price limit in natural language (e.g., "vintage graphic tee under $30"). The agent parses their request, searches a thrift catalog for matching pieces, recommends personalized outfit combinations utilizing pieces from the user's existing wardrobe, and generates a social-ready fit card caption highlighting the find.
 
 
 
@@ -59,24 +59,24 @@
 
 ### `search_listings`
 
-- **What it does:**
-- **Inputs:** <!-- name and type each: `max_price` (float), not "a price" -->
-- **Returns:**
-- **When it has nothing:**
+- **What it does:** Searches thrift store listings and filters them by keywords, optional size, and maximum price ceiling.
+- **Inputs:** `description` (str), `size` (str or None), `max_price` (float or None).
+- **Returns:** A list of listing dicts (at most 3), best match first, each containing `id` (str), `title` (str), `description` (str), `category` (str), `style_tags` (list[str]), `size` (str), `condition` (str), `price` (float), `colors` (list[str]), `brand` (str or None), and `platform` (str).
+- **When it has nothing:** An empty list (`[]`), never `None` or an exception.
 
 ### `suggest_outfit`
 
-- **What it does:**
-- **Inputs:**
-- **Returns:**
-- **When it has nothing:**
+- **What it does:** Calls the Gemini model to suggest 1–2 outfit combinations pairing a selected thrift item with items from the user's wardrobe.
+- **Inputs:** `new_item` (dict with listing fields: `id`, `title`, `category`, `style_tags`, `colors`, `price`), `wardrobe` (dict with an `'items'` key holding a list of wardrobe item dicts).
+- **Returns:** A non-empty string containing 1–2 outfit pairing descriptions specifically naming owned wardrobe items.
+- **When it has nothing:** When `wardrobe['items']` is empty, returns a string containing general styling suggestions and silhouette advice for the item rather than raising an error or returning `""`.
 
 ### `create_fit_card`
 
-- **What it does:**
-- **Inputs:**
-- **Returns:**
-- **When it has nothing:**
+- **What it does:** Calls the Gemini model to write a 2–4 sentence social-ready caption highlighting the thrift find, styling vibe, price, and platform.
+- **Inputs:** `outfit` (str), `new_item` (dict with listing fields: `title`, `price`, `platform`, `description`, `style_tags`).
+- **Returns:** A 2–4 sentence caption string mentioning the item, its price, platform, and styling aesthetic.
+- **When it has nothing:** When `outfit` is empty or whitespace-only, returns a descriptive caption focusing solely on the item, its price, and platform without crashing or raising an exception.
 
 ---
 
@@ -93,13 +93,13 @@
      The grader checks your code against what you claim here, so the file and
      function have to be real. -->
 
-**Branch rule:**
+**Branch rule:** If `search_listings` returns an empty list, set `session["error"]` with an informative message suggesting what the user could change and stop. Otherwise, take the first listing from `session["search_results"]`, store it in `session["selected_item"]`, and proceed to `suggest_outfit`.
 
 **Where it lives:** `agent.py::run_agent`
 
-**How the query is parsed:** <!-- regex, string splitting, or asking the model — say which -->
+**How the query is parsed:** Regex pattern extraction for price (e.g., `r'(?:under|<|\$)\s*(\d+(?:\.\d{2})?)'`) and size (e.g., `r'\bsize\s+([A-Za-z0-9/]+)\b'`), using remaining terms as the `description` string.
 
-**What moves through the session:** <!-- which fields, in what order -->
+**What moves through the session:** `query` → `parsed` (`description`, `size`, `max_price`) → `search_results` (list of listings) → `selected_item` (listing dict) → `outfit_suggestion` (str) → `fit_card` (str) [or `error` (str) if search results are empty].
 
 ---
 
