@@ -113,8 +113,17 @@ FitFindr is an AI-powered personal shopping and styling assistant for secondhand
 **One full query**
 
 ```
-$ python app.py ask '...'
+$ python app.py ask 'vintage graphic tee under $30'
 
+  Found:    Graphic Tee — 2003 Tour Bootleg Style — $24.0 on depop
+
+  Outfit:   **The Ultimate 90s Grunge Look**
+Pair the graphic tee with your baggy dark-wash straight-leg jeans, and anchor the outfit with your black combat boots for an effortless, authentic streetwear vibe. Layer the vintage black denim jacket on top to play with textures and add an extra layer of vintage edge. 
+
+**High-Low Contrast Streetwear**
+Tuck the slightly boxy graphic tee into your wide-leg khaki trousers, and define the waist with your brown leather belt for a cool mix of earthy tones and grungy edge. Finish the fit with your chunky white sneakers and the black crossbody bag for a casual, balanced day-to-day look.
+
+  Fit card: I can’t believe I scored this buttery-soft 2003 tour bootleg tee for just $24.0 on depop! The faded graphic and boxy fit give it that ultimate 90s grunge look when paired with baggy denim and beat-up combat boots. I’m so obsessed with how effortlessly authentic this streetwear vibe is!
 ```
 
 **The three tools, tested one at a time**
@@ -153,15 +162,15 @@ I am still not over finding these dream vintage Levi's 501 jeans with that perfe
 
 **Moment 1**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* Size matching logic for `search_listings` to filter listings by sizes like "S", "M", "L", "US 9", and "W30".
+- *What came back:* A simple case-insensitive substring search implementation (`query_size.lower() in item_size.lower()`).
+- *What I changed:* Replaced the naive substring search with regex tokenization and token sets. The substring check produced false positives like `"s"` matching `"US 9"` or `"l"` matching `"xl"`, returning shoes when asking for small tops. The updated tokenized comparison accurately handles split sizes (e.g., `"M"` matches `"S/M"`), shoe sizes, and waist measurements (`"W30"` vs `"30"`) without cross-category false positives.
 
 **Moment 2**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* Handling the branch condition in `run_agent()` when `search_listings` returns no matching items.
+- *What came back:* A static generic message: `"No results found for your query."`
+- *What I changed:* Replaced the generic string with dynamic, actionable feedback that inspects which filters were active (`max_price`, `size`, `description`) and specifies what the user could change (e.g. raising the price limit above $5.0, checking adjacent sizes instead of 'XXS', or broadening keywords) while keeping `session["fit_card"]` as `None` and halting before calling `suggest_outfit`.
 
 <!-- ═══════════════════════ UNIT 4 — THE TEST ═══════════════════════
 

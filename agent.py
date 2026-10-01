@@ -13,10 +13,53 @@ Build and test your three tools in `tools.py` first. Then come here.
     python agent.py          runs both example paths below
 """
 
+import re
 import config
 import trace
 from tools import search_listings, suggest_outfit, create_fit_card
 from generate import ModelUnavailable
+
+
+# ── query parsing ─────────────────────────────────────────────────────────────
+
+def parse_query(query: str) -> dict:
+    """
+    Extract search keywords, size, and price ceiling from a natural language query.
+    """
+    parsed = {"description": query.strip(), "size": None, "max_price": None}
+    working = query
+
+    # 1. Price pattern: "under $30", "under 30", "< $30", "$30"
+    price_match = re.search(
+        r"(?:under|<|\bmax\b)\s*\$?(\d+(?:\.\d+)?)|(?:\$(\d+(?:\.\d+)?))",
+        working,
+        re.I,
+    )
+    if price_match:
+        price_str = price_match.group(1) or price_match.group(2)
+        parsed["max_price"] = float(price_str)
+        working = working[:price_match.start()] + " " + working[price_match.end():]
+
+    # 2. Size pattern: "in size M", "size XXS", "size 8", "size US 9", "size W30"
+    size_match = re.search(
+        r"\b(?:in\s+)?size\s+([A-Za-z0-9/]+(?:\s+[A-Za-z0-9.]+)?)\b",
+        working,
+        re.I,
+    )
+    if size_match:
+        parsed["size"] = size_match.group(1).strip()
+        working = working[:size_match.start()] + " " + working[size_match.end():]
+
+    # 3. Clean up description
+    desc = re.sub(
+        r"\b(looking for|find me|i want|search for|a|an)\b",
+        " ",
+        working,
+        flags=re.I,
+    )
+    desc = re.sub(r"\s+", " ", desc).strip()
+    parsed["description"] = desc if desc else query.strip()
+    return parsed
 
 
 # ── session state ─────────────────────────────────────────────────────────────
@@ -60,55 +103,65 @@ def run_agent(query: str, wardrobe: dict) -> dict:
                   get_empty_wardrobe() from utils/data_loader.py.
 
     Returns:
-        The session dict. **Check session["error"] first** — if it isn't None,
+        The session dict. Check session["error"] first — if it isn't None,
         the run ended early and the later fields will still be None.
-
-    ─────────────────────────────────────────────────────────────────────────
-    TODO — build this, following the branch rule you wrote in Milestone 2.
-
-      1. Start a session with new_session().
-
-      2. Count the times round the loop, and call trace.check_iterations(count)
-         on each one before you go again. It raises when the count passes
-         MAX_ITERATIONS in config.py — see trace.py.
-
-      3. Parse the query into a description, a size, and a max_price. Regex,
-         string splitting, or asking the model are all fine — say which you
-         chose in your README. Put the result in session["parsed"].
-
-      4. Call search_listings() with what you parsed.
-         Put the results in session["search_results"].
-
-         ⚠️ THIS IS THE BRANCH. If nothing came back:
-              - put a message in session["error"] saying what the user could
-                change — "No results" is not that message
-              - return the session
-              - do NOT call suggest_outfit with nothing
-
-      5. Choose an item — the first result is fine. Put it in
-         session["selected_item"].
-
-      6. Call suggest_outfit() with the selected item and the wardrobe.
-         Put the result in session["outfit_suggestion"].
-
-      7. Call create_fit_card() with the outfit and the item.
-         Put the result in session["fit_card"].
-
-      8. Return the session.
-
-    ─────────────────────────────────────────────────────────────────────────
-    IN UNIT 4 you come back and add two things:
-
-      • Trace calls. One per step. `trace.step("search_listings", inputs=...,
-        returned=...)` — see trace.py. Your README needs the output.
-
-      • A handler for ModelUnavailable, so a bad key produces a message rather
-        than a stack trace. The import is already at the top of this file.
     """
     session = new_session(query, wardrobe)
+    iteration = 0
 
-    # TODO: delete these two lines and build the loop.
-    session["error"] = "The planning loop isn't built yet — see the TODO in agent.py."
+    # Step 1: Parse the user's query into structured parameters
+    iteration += 1
+    trace.check_iterations(iteration)
+    session["parsed"] = parse_query(session["query"])
+
+    # Step 2: Search catalog listings using parsed inputs from session
+    iteration += 1
+    trace.check_iterations(iteration)
+    parsed_input = session["parsed"]
+    session["search_results"] = search_listings(
+        description=parsed_input.get("description", query),
+        size=parsed_input.get("size"),
+        max_price=parsed_input.get("max_price"),
+    )
+
+    # ⚠️ BRANCH: If search returned nothing, stop early and explain what to change
+    if not session["search_results"]:
+        filters = []
+        if parsed_input.get("max_price") is not None:
+            filters.append(f"raising your price limit above ${parsed_input['max_price']}")
+        if parsed_input.get("size") is not None:
+            filters.append(f"searching for sizes other than '{parsed_input['size']}'")
+        filters.append(f"broadening your search terms (tried '{parsed_input.get('description', query)}')")
+        session["error"] = f"No matching listings found. Try {' or '.join(filters)}."
+        return session
+
+    # Step 3: Select top candidate item and store in session
+    iteration += 1
+    trace.check_iterations(iteration)
+    session["selected_item"] = session["search_results"][0]
+
+    # Step 4: Suggest outfits by reading selected item and wardrobe from session
+    iteration += 1
+    trace.check_iterations(iteration)
+    item_to_pair = session["selected_item"]
+    user_closet = session["wardrobe"]
+    try:
+        session["outfit_suggestion"] = suggest_outfit(item_to_pair, user_closet)
+    except ModelUnavailable as exc:
+        session["error"] = f"Model unavailable: {exc}"
+        return session
+
+    # Step 5: Generate social fit card by reading outfit and selected item from session
+    iteration += 1
+    trace.check_iterations(iteration)
+    outfit_text = session["outfit_suggestion"]
+    item_for_card = session["selected_item"]
+    try:
+        session["fit_card"] = create_fit_card(outfit_text, item_for_card)
+    except ModelUnavailable as exc:
+        session["error"] = f"Model unavailable: {exc}"
+        return session
+
     return session
 
 
