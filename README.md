@@ -120,18 +120,24 @@ $ python app.py ask '...'
 **The three tools, tested one at a time**
 
 ```
-$ python -c "from tools import search_listings; print(search_listings('graphic tee', max_price=30))"
-
+$ python -c "from tools import search_listings; print(search_listings('graphic tee', max_price=30)[:1])"
+[{'id': 'lst_006', 'title': 'Graphic Tee — 2003 Tour Bootleg Style', 'description': 'Vintage-style bootleg tee with faded graphic. Slightly boxy fit. 100% cotton, soft and worn-in.', 'category': 'tops', 'style_tags': ['graphic tee', 'vintage', 'grunge', 'streetwear', 'band tee'], 'size': 'L', 'condition': 'good', 'price': 24.0, 'colors': ['black'], 'brand': None, 'platform': 'depop'}]
 ```
 
 ```
-$ python -c "from tools import suggest_outfit; ..."
+$ python -c "from tools import suggest_outfit; from utils.data_loader import get_example_wardrobe, load_listings; print(suggest_outfit(load_listings()[0], get_example_wardrobe()))"
+Here are two ways to style your new Vintage Levi's 501s using pieces already in your wardrobe:
 
+**1. Casual Streetwear Look**
+Pair the Levi's with your **white ribbed tank top** tucked in, layered under your **vintage black denim jacket**, and finish with your **chunky white sneakers** and **black crossbody bag**. The fitted tank balances the relaxed 501 fit while the black outerwear creates a sharp, effortless contrast against the medium wash.
+
+**2. Cozy Off-Duty Look**
+Wear the jeans with your **oversized grey crewneck sweatshirt** half-tucked at the waist, cinched with your **brown leather belt**, and style it with your **black combat boots**. The heavy boots anchor the slouchy, vintage silhouette of the sweatshirt and denim for an easy, textured outfit.
 ```
 
 ```
-$ python -c "from tools import create_fit_card; ..."
-
+$ python -c "from tools import create_fit_card; from utils.data_loader import load_listings; print(create_fit_card('styled with a white tank and combat boots', load_listings()[0]))"
+I am still not over finding these dream vintage Levi's 501 jeans with that perfectly faded medium wash! I just dropped them on my depop for $38.0, and they are begging to be styled with a crisp white tank and heavy combat boots. Grab them before I change my mind and keep them for myself!
 ```
 
 ---
