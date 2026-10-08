@@ -300,6 +300,25 @@ All five criteria met their targets on the initial run. However, two minor UX is
 **On the MCP move:**
 I decoupled `search_listings` from direct module execution by registering it with FastMCP in `mcp_server.py`, complete with typed parameters and docstrings. In `agent.py::run_agent`, the search call was rewired to call `mcp_client.call_tool("search_listings", search_args)`. The protocol serialization preserved the exact `list[dict]` return shape, so no downstream session or tool logic had to be altered. The trace now visibly displays `[1] search_listings (via MCP)`.
 
+### Failure Modes Handled
+
+All three failure modes were intentionally triggered and verified:
+
+1. **Empty search:**
+   - *Trigger command:* `python app.py ask 'authentic medieval chainmail armour under $5' --trace`
+   - *Agent message:* `"No matching listings found. Try raising your price limit above $5.0 or broadening your search terms (tried 'authentic medieval chainmail armour')."`
+   - *Handler behavior:* In `agent.py::run_agent`, checks `if not session["search_results"]`. Halts early before subsequent tool calls, sets `session["error"]` with actionable guidance indicating which constraints to loosen, and preserves `fit_card` as `None`.
+
+2. **Empty wardrobe:**
+   - *Trigger command:* `python app.py ask 'vintage graphic tee under $30' --empty-wardrobe --trace`
+   - *Agent message:* Successfully generates styling suggestions based on universal silhouette and layering principles (e.g. pairing with high-waisted denim and leather jackets) rather than crashing or returning an empty string.
+   - *Handler behavior:* In `tools.py::suggest_outfit`, detects when `len(wardrobe.get("items", [])) == 0` and pivots prompt instructions to recommend versatile wardrobe staples and styling advice without hallucinating non-existent wardrobe IDs.
+
+3. **Model unavailable:**
+   - *Trigger command:* Corrupted key in `.env`, ran `python app.py ask 'lime green neon windbreaker jacket under $55' --trace`
+   - *Agent message:* `"Model unavailable: The model rejected your API key. Check GEMINI_API_KEY in your .env file, or create a fresh key at aistudio.google.com."`
+   - *Handler behavior:* In `agent.py::run_agent`, wraps calls to `suggest_outfit` and `create_fit_card` in `try...except ModelUnavailable`. Intercepts the exception, prevents raw traceback dumps or hanging, sets `session["error"]` with the human-readable explanation from `generate.py::_explain()`, and terminates cleanly.
+
 ---
 
 ## The Improvement
@@ -357,18 +376,18 @@ All five primary acceptance criteria targets are currently MET. However, in futu
 
      SUBMISSION CHECKLIST — unit 4
 
-       [ ] mcp_server.py exists with one tool registered
+       [x] mcp_server.py exists with one tool registered
            (or a written record of exactly where the rewire broke)
-       [ ] Run Log — Before, five criteria, five tries each
-       [ ] Real output pasted underneath, naming file and function
-       [ ] A verdict on every criterion
-       [ ] A diagnosis for every miss, naming a place AND a mechanism
-       [ ] Loop Trace, with the MCP call visible in it
-       [ ] All three failure modes triggered and handled
-       [ ] One improvement, with Run Log — After in the same format
-       [ ] What's Still Broken
-       [ ] At least four new commits
-       [ ] The SAME repository URL as last unit
+       [x] Run Log — Before, five criteria, five tries each
+       [x] Real output pasted underneath, naming file and function
+       [x] A verdict on every criterion
+       [x] A diagnosis for every miss, naming a place AND a mechanism
+       [x] Loop Trace, with the MCP call visible in it
+       [x] All three failure modes triggered and handled
+       [x] One improvement, with Run Log — After in the same format
+       [x] What's Still Broken
+       [x] At least four new commits
+       [x] The SAME repository URL as last unit
 
      Do not delete and recreate this repository. Your commit history is what
      shows your criteria existed before your results did.
