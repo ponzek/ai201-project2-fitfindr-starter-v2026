@@ -198,10 +198,11 @@ I am still not over finding these dream vintage Levi's 501 jeans with that perfe
 | 4. fit card format and variety | 4 of 5 | PASS | PASS | PASS | PASS | PASS | MET (5/5) |
 | 5. empty wardrobe | 4 of 5 | PASS | PASS | PASS | PASS | PASS | MET (5/5) |
 
-**Real output from one try**, pasted as text, naming the file and function
+**Real output for each criterion (from Try 1)**, pasted as text, naming the file and function
 that produced it:
 
 ```
+Criterion 1 — matching query completes
 File & Function: agent.py::run_agent (Scenario 1, Try 1)
 Query: 'vintage graphic tee under $30'
 Wardrobe: example
@@ -221,6 +222,72 @@ Tuck the tee into your **wide-leg khaki trousers** using the **brown leather bel
 
 Fit Card:
 I cannot get over this 2003 tour bootleg graphic tee I just scored on Depop for only $24.00! The faded print and boxy, worn-in cotton give it the ultimate 90s grunge edge, whether I'm pairing it with baggy denim and sneakers or dressing it down with khaki trousers and combat boots. Honestly, finding a piece with this much authentic vintage character for under 25 bucks is a total win.
+```
+
+```
+Criterion 2 — impossible query stops early
+File & Function: agent.py::run_agent (Scenario 2, Try 1)
+Query: 'designer ballgown size XXS under $5'
+Wardrobe: example
+
+stopped early: yes
+error: "No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown')."
+selected_item: None
+search_results: []
+fit_card: None
+```
+
+```
+Criterion 3 — state preservation across tools
+File & Function: agent.py::run_agent (Scenario 4, Try 1)
+Query: '90s track jacket in size M'
+Wardrobe: example
+
+stopped early: no
+session["search_results"][0]["id"]: lst_004
+session["selected_item"]["id"]: lst_004
+title: 90s Track Jacket — Navy/White Stripe
+price: $45.0
+platform: poshmark
+
+Outfit Suggestion:
+**Look 1: 90s Streetwear Casual**
+Pair the track jacket over your fitted **white ribbed tank top** and **baggy straight-leg jeans (dark wash)**. Finish the fit with your **chunky white sneakers** and the **black crossbody bag** for an effortless, vintage athletic vibe.
+
+**Look 2: High-Low Contrast**
+Create a cool menswear-inspired silhouette by layering the track jacket with your **wide-leg khaki trousers** and the **white ribbed tank top** tucked in. Add your **chunky white sneakers** and cinch the look with the **brown leather belt** to tie the navy and khaki tones together.
+
+Fit Card:
+Still obsessing over how good this authentic 90s navy and white striped track jacket looks with a baggy denim street fit or high-waisted khakis! I just listed this lightweight, full-zip vintage gem over on my Poshmark for $45, and it is the ultimate layering piece for nailing that effortless retro athletic vibe. Run, don't walk, to grab it before I change my mind and keep it for myself!
+```
+
+```
+Criterion 4 — fit card format and variety
+File & Function: agent.py::run_agent (Scenario 5, Try 1)
+Query: 'silk slip dress in midi length under $40'
+Wardrobe: example
+
+stopped early: no
+selected_item: 90s Silk Slip Dress — Floral, Midi Length ($30.0, depop)
+
+Fit Card:
+Just scored the ultimate 90s floral midi slip dress for only $30.0 on depop, and I’m already obsessed! I'm totally planning to grunge it up with an oversized crewneck and combat boots, or keep it casual-cool layered over straight-leg jeans with chunky sneaks. Snag this dreamy vintage piece on my depop shop before someone else beats you to it!
+```
+
+```
+Criterion 5 — empty wardrobe
+File & Function: agent.py::run_agent (Scenario 3, Try 1)
+Query: 'denim jacket under $50'
+Wardrobe: empty
+
+stopped early: no
+selected_item: Denim Jacket — Light Wash, Cropped ($42.0, poshmark)
+
+Outfit Suggestion:
+This light wash, cropped vintage denim jacket is a streetwear staple that adds instant structure and effortless cool to any frame. Build your capsule wardrobe around it by pairing it with a simple white cotton t-shirt, high-waisted black straight-leg trousers, and retro sneakers for an easy, classic-meets-streetwear look. Alternatively, throw it over a black ribbed midi dress with chunky black boots to balance the rugged denim texture with a sleek, feminine silhouette.
+
+Fit Card:
+I am still obsessing over this light wash, cropped denim jacket with the absolute best structured shoulders, and I scored it on Poshmark for just $42! It’s totally a blank canvas waiting to be customized, but right now I'm loving it thrown over a black midi dress with chunky boots for that effortless streetwear vibe. Grab it in my closet before I change my mind and keep it for my own capsule wardrobe!
 ```
 
 ---
