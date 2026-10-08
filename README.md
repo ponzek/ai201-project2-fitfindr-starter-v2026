@@ -320,9 +320,17 @@ I am still obsessing over this light wash, cropped denim jacket with the absolut
 
 **Diagnoses**
 
-All five criteria met their targets on the initial run. However, two minor UX issues were identified during inspection:
-1. **Unformatted Float Stringification in Fit Card:** When `new_item["price"]` was passed as a raw float (e.g. `30.0` or `24.0`), the model prompt reflected `$30.0` or `$24.00`, leading to slightly robotic social captions (e.g., "for only $24.00" instead of the natural "for only $24").
-2. **Platform Capitalization Inconsistency:** Raw platform values in `data/listings.json` are lowercase (`depop`, `thredUp`, `poshmark`). Captions occasionally mirrored the lowercase or inconsistent capitalization instead of proper brand casing (`Depop`, `ThredUp`, `Poshmark`).
+All five criteria met their targets on the initial run (5/5 passes across all five scenarios). 
+
+**Target Assessment & Honesty Check:**
+Because all five targets were MET at 5/5, I evaluated whether the targets were set too leniently:
+- **Criterion 1 (4 of 5):** The target was set conservatively at 4/5 assuming keyword search might miss phrasing variants. However, our token-matching and size-filtering logic was robust enough to hit 5/5 consistently.
+- **Criterion 5 (4 of 5):** The target was set at 4/5 anticipating potential model hallucination on empty wardrobes. The dedicated prompt branch in `tools.py::suggest_outfit` handled this cleanly every time.
+- **The criterion I would tighten:** **Criterion 4 (Fit card format and variety)**. The current target of 4/5 allows for generative slop. I would tighten it to **5 of 5** and make the acceptance condition stricter by explicitly requiring whole-dollar currency formatting (disallowing `$30.0` or `$24.00`) and canonical platform casing (requiring `Depop`, `Poshmark`, `ThredUp` instead of raw JSON lowercase like `depop`).
+
+During qualitative inspection of the 5/5 run logs, two specific mechanisms produced minor UX flaws:
+1. **Unformatted Float Stringification (Place: tool / model prompt in `create_fit_card`):** Passing `new_item["price"]` as a raw float caused the prompt to instruct the model with values like `30.0` or `24.0`, leading to awkward social captions (e.g., "for only $24.00" or "$30.0" instead of "$24" or "$30").
+2. **Platform Capitalization Inconsistency (Place: tool / input data in `create_fit_card`):** The catalog JSON stores platform names in lowercase (`depop`, `thredUp`, `poshmark`). Without normalization before prompt injection, the model occasionally mirrored `depop` instead of the capitalized brand name `Depop`.
 
 
 
