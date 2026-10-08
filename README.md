@@ -421,7 +421,7 @@ Addresses caption realism in Criterion 4 (preventing robotic float price strings
 | 5. empty wardrobe | 4 of 5 | PASS | PASS | PASS | PASS | PASS | MET (5/5) |
 
 **Did it help, and how do I know:**
-Yes. Across all 5 tries in `results/run_2026-10-01_0205_after.md`, every generated fit card caption cleanly featured natural integer prices (`$30`, `$42`, `$45`) and capitalized platform names (`Depop`, `Poshmark`), eliminating awkward decimal representations like `$30.0` while maintaining full criterion compliance (5/5).
+Yes, the improvement helped: across all 5 re-run tries, every generated fit card caption in `results/run_2026-10-01_0205_after.md` cleanly featured natural integer prices (`$30`, `$42`, `$45`) and properly capitalized platform names (`Depop`, `Poshmark`), eliminating awkward decimal representations like `$30.0` while maintaining 100% criterion compliance (5/5).
 
 ---
 
