@@ -172,6 +172,12 @@ I am still not over finding these dream vintage Levi's 501 jeans with that perfe
 - *What came back:* A static generic message: `"No results found for your query."`
 - *What I changed:* Replaced the generic string with dynamic, actionable feedback that inspects which filters were active (`max_price`, `size`, `description`) and specifies what the user could change (e.g. raising the price limit above $5.0, checking adjacent sizes instead of 'XXS', or broadening keywords) while keeping `session["fit_card"]` as `None` and halting before calling `suggest_outfit`.
 
+**Moment 3 (Unit 4)**
+
+- *What I asked for:* A fix for robotic float price representations (e.g., `"$30.0"` or `"$24.00"`) and unformatted lowercase platforms (`depop`) diagnosed during Criterion 4 testing.
+- *What came back:* A suggestion to apply global regular expressions across the model's finished caption output after generation to replace float patterns.
+- *What I changed:* Rejected post-generation regex substitution because post-processing generated text risks corrupting valid numbers in descriptions or sentences. Instead, implemented clean data preprocessing in `tools.py::create_fit_card` before prompt assembly, converting whole-dollar floats to integers (`f"${int(raw_price)}"`) and capitalizing platform names (`platform.capitalize()`). This solved the issue at the source without altering the LLM's natural sentence structure.
+
 <!-- ═══════════════════════ UNIT 4 — THE TEST ═══════════════════════
 
      Don't fill these in during unit 3.
@@ -373,7 +379,8 @@ During qualitative inspection of the 5/5 run logs, two specific mechanisms produ
 ```
 
 **On the MCP move:**
-I decoupled `search_listings` from direct module execution by registering it with FastMCP in `mcp_server.py`, complete with typed parameters and docstrings. In `agent.py::run_agent`, the search call was rewired to call `mcp_client.call_tool("search_listings", search_args)`. The protocol serialization preserved the exact `list[dict]` return shape, so no downstream session or tool logic had to be altered. The trace now visibly displays `[1] search_listings (via MCP)`.
+- *What changed in code:* In `mcp_server.py`, registered `search_listings` with FastMCP (`@mcp.tool()`) including full docstrings and typed schema parameters (`description: str`, `size: str | None = None`, `max_price: float | None = None`). In `agent.py::run_agent`, replaced the direct function call with `mcp_client.call_tool("search_listings", search_args)`.
+- *Whether anything behaved differently after:* No functional behavior changed. MCP serializes requests and responses over stdio, but `mcp_client._unwrap()` converts the JSON payload back into the identical `list[dict]` structure. All downstream tools, state propagation in `session`, and loop branches continued operating without requiring any modification.
 
 ### Failure Modes Handled
 
@@ -427,9 +434,17 @@ Yes, the improvement helped: across all 5 re-run tries, every generated fit card
 
 ## What's Still Broken
 
-All five primary acceptance criteria targets are currently MET. However, in future iterations, two minor areas can be further enhanced:
-1. **Semantic Search / Synonym Matching:** The search tool currently relies on keyword token overlap and style tags. A query asking for "sneakers" will not find listings tagged only as "kicks" or "trainers" unless those terms are explicitly present in the title or description. Adding vector embeddings or TF-IDF / BM25 would broaden synonym recall.
-2. **Persistent Multi-Turn Dialogue:** The session state currently executes a single-turn query lifecycle (search → outfit → fit card). Supporting iterative follow-ups (e.g., "show me the next option" or "try a different color") would require keeping the session alive across user turns.
+All five primary acceptance criteria targets were MET (5/5). However, pretending nothing is left to improve is not honest:
+
+1. **Vocabulary / Synonym Misses in Keyword Search (Criterion 1 edge cases):**
+   - *What's still broken:* Keyword search only matches literal tokens and style tags in the listings catalog. If a user asks for "kicks", it will miss items described strictly as "sneakers" or "trainers".
+   - *What I'd do:* Integrate TF-IDF synonym expansions or vector embeddings with cosine similarity to perform semantic retrieval alongside keyword matching.
+   - *Why I stopped there:* Unit 4 strictly enforces a "one change only" rule between evaluation runs. Adding vector embeddings would require external model calls, new dependencies, and changes to multiple components simultaneously.
+
+2. **Persistent Multi-Turn Dialogue:**
+   - *What's still broken:* The agent operates strictly as a single-turn pipeline (query → search → outfit → fit card). If the user wants to inspect alternative candidate matches from `session["search_results"][1:]` or ask for adjustments, there is no interactive conversational memory.
+   - *What I'd do:* Maintain session history across turns and implement an intent branch to support follow-up requests like "show me the next option" or "try styling with different colors".
+   - *Why I stopped there:* The evaluation criteria and unit requirements are designed around single-turn planning loop validation, so multi-turn persistence was out of scope.
 
 
 
