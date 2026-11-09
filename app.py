@@ -123,6 +123,9 @@ def _ask_one(query, wardrobe, use_trace):
         print(f"  Outfit:   {session['outfit_suggestion']}")
         print()
         print(f"  Fit card: {session['fit_card']}")
+        if session.get("warning"):
+            print()
+            print(f"  Note:     {session['warning']}")
     print()
 
     if use_trace:

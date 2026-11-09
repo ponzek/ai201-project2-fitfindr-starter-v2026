@@ -87,6 +87,7 @@ def new_session(query: str, wardrobe: dict) -> dict:
         "outfit_suggestion": None,   # what suggest_outfit returned
         "fit_card": None,            # what create_fit_card returned
         "error": None,               # set when the run ended early
+        "warning": None,             # capstone: a model step failed, but we still have a listing
     }
 
 
@@ -168,7 +169,11 @@ def run_agent(query: str, wardrobe: dict) -> dict:
             returned=session["outfit_suggestion"],
         )
     except ModelUnavailable as exc:
-        session["error"] = f"Model unavailable: {exc}"
+        # Capstone fallback: search already found a listing, so keep it and
+        # tell the user which step failed instead of throwing it all away.
+        session["warning"] = f"Couldn't suggest an outfit: {exc}"
+        trace.step("suggest_outfit", inputs={"item": item_to_pair.get("title")},
+                   returned=None, note="model failed, returning the listing only")
         return session
 
     # Step 5: Generate social fit card by reading outfit and selected item from session
@@ -184,7 +189,10 @@ def run_agent(query: str, wardrobe: dict) -> dict:
             returned=session["fit_card"],
         )
     except ModelUnavailable as exc:
-        session["error"] = f"Model unavailable: {exc}"
+        # Capstone fallback: keep the listing and the outfit we already have.
+        session["warning"] = f"Couldn't write a fit card: {exc}"
+        trace.step("create_fit_card", inputs={"item": item_for_card.get("title")},
+                   returned=None, note="model failed, returning listing and outfit")
         return session
 
     return session
