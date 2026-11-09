@@ -14,7 +14,11 @@ Build and test your three tools in `tools.py` first. Then come here.
 """
 
 import re
+import time
+
 import config
+import generate
+import run_log
 import trace
 from tools import search_listings, suggest_outfit, create_fit_card
 from generate import ModelUnavailable
@@ -106,8 +110,41 @@ def run_agent(query: str, wardrobe: dict) -> dict:
     Returns:
         The session dict. Check session["error"] first — if it isn't None,
         the run ended early and the later fields will still be None.
+
+    Capstone: every run, including one that crashes, writes a record to
+    logs/runs.jsonl with its timing and token use (see run_log.py).
     """
     session = new_session(query, wardrobe)
+    timer = run_log.StepTimer()
+    tokens_before = generate.token_counts()
+    calls_before = generate.call_count()
+    started = time.perf_counter()
+    crash = None
+
+    try:
+        _run_steps(session, timer)
+    except Exception as exc:
+        crash = f"{type(exc).__name__}: {exc}"
+        raise
+    finally:
+        tokens_after = generate.token_counts()
+        run_log.write_record(
+            session,
+            duration=time.perf_counter() - started,
+            steps=timer.steps,
+            tokens={
+                "prompt": tokens_after["prompt"] - tokens_before["prompt"],
+                "output": tokens_after["output"] - tokens_before["output"],
+            },
+            model_calls=generate.call_count() - calls_before,
+            crash=crash,
+        )
+    return session
+
+
+def _run_steps(session: dict, timer) -> None:
+    """The planning loop itself. Fills in the session as it goes."""
+    query = session["query"]
     iteration = 0
 
     # Step 1: Parse the user's query into structured parameters
@@ -125,6 +162,7 @@ def run_agent(query: str, wardrobe: dict) -> dict:
         "max_price": parsed_input.get("max_price"),
     }
 
+    timer.start()
     try:
         from mcp_client import call_tool
         session["search_results"] = call_tool("search_listings", search_args)
@@ -136,6 +174,7 @@ def run_agent(query: str, wardrobe: dict) -> dict:
             max_price=search_args["max_price"],
         )
         step_name = "search_listings"
+    timer.stop("search")
 
     # ⚠️ BRANCH: If search returned nothing, stop early and explain what to change
     if not session["search_results"]:
@@ -161,39 +200,45 @@ def run_agent(query: str, wardrobe: dict) -> dict:
     trace.check_iterations(iteration)
     item_to_pair = session["selected_item"]
     user_closet = session["wardrobe"]
+    timer.start()
     try:
         session["outfit_suggestion"] = suggest_outfit(item_to_pair, user_closet)
-        trace.step(
-            "suggest_outfit",
-            inputs={"item": item_to_pair.get("title"), "wardrobe_items": len(user_closet.get("items", []))},
-            returned=session["outfit_suggestion"],
-        )
     except ModelUnavailable as exc:
+        timer.stop("outfit")
         # Capstone fallback: search already found a listing, so keep it and
         # tell the user which step failed instead of throwing it all away.
         session["warning"] = f"Couldn't suggest an outfit: {exc}"
         trace.step("suggest_outfit", inputs={"item": item_to_pair.get("title")},
                    returned=None, note="model failed, returning the listing only")
         return session
+    timer.stop("outfit")
+    trace.step(
+        "suggest_outfit",
+        inputs={"item": item_to_pair.get("title"), "wardrobe_items": len(user_closet.get("items", []))},
+        returned=session["outfit_suggestion"],
+    )
 
     # Step 5: Generate social fit card by reading outfit and selected item from session
     iteration += 1
     trace.check_iterations(iteration)
     outfit_text = session["outfit_suggestion"]
     item_for_card = session["selected_item"]
+    timer.start()
     try:
         session["fit_card"] = create_fit_card(outfit_text, item_for_card)
-        trace.step(
-            "create_fit_card",
-            inputs={"item": item_for_card.get("title"), "price": item_for_card.get("price")},
-            returned=session["fit_card"],
-        )
     except ModelUnavailable as exc:
+        timer.stop("fit_card")
         # Capstone fallback: keep the listing and the outfit we already have.
         session["warning"] = f"Couldn't write a fit card: {exc}"
         trace.step("create_fit_card", inputs={"item": item_for_card.get("title")},
                    returned=None, note="model failed, returning listing and outfit")
         return session
+    timer.stop("fit_card")
+    trace.step(
+        "create_fit_card",
+        inputs={"item": item_for_card.get("title"), "price": item_for_card.get("price")},
+        returned=session["fit_card"],
+    )
 
     return session
 
