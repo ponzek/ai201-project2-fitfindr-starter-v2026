@@ -100,3 +100,63 @@ New users will frequently start with an empty wardrobe. The system must degrade 
      A number you missed stays where it is, gets diagnosed, and gets a fix
      attempted. That's where the points are.
      ───────────────────────────────────────────────────────────────────────── -->
+
+---
+
+# Unit 9 — Capstone criteria
+
+Written before any capstone results. These test this unit's extension:
+the fallback, the time limit, and the run log.
+
+Each target applies to every one of 3 separate trials, run without changing
+anything in between.
+
+Each criterion is tested at least 3 times; the number of tries is stated in the criterion.
+
+> **Note on timing:** the blanks and reasons below were filled in on
+> 2026-11-08, after the 12 runs in `logs/runs.jsonl` had been logged. Where a
+> reason relies on those runs, it says so.
+
+## 1. A failed model step still shows the listing
+
+With `AI201_MODEL=no-such-model`, the user still sees the listing title and
+price, plus a note naming the step that failed — in 3 of 3 tries.
+
+**Why this target:**
+The fallback is ordinary Python: `agent.py` catches `ModelUnavailable` and keeps the listing search already found. A bad model name fails on the first model call every time, so with a query search can match (`'denim jacket under $50'`), anything short of 3 of 3 is a bug. Three tries is enough because each one follows the same code path. This only tests the outfit step failing, since a bad model name never gets as far as the fit card step.
+
+## 2. Every run is logged
+
+After every run, `logs/runs.jsonl` gets exactly one new line containing the
+timestamp, query, outcome, step timings, and token counts. This includes
+forced failures, where a matched run with a model failure is logged as
+`partial` — in 15 of 15 runs.
+
+**Why this target:**
+The record is written in a `finally` block in `run_agent`, so it doesn't depend on how the run ended, and `partial` comes directly from `session["warning"]`. No model output is involved, so a missing or doubled line is a bug and the target has to be every run. The 15 runs are the ones used to test the other criteria: 5 forced failures (criteria 1 and 4), 5 normal runs (criterion 3), and 5 empty searches (criterion 5). That way the log is checked on every outcome the tests produce, not only on successful runs.
+
+## 3. A normal run is fast enough
+
+A normal run of `python app.py ask 'vintage graphic tee under $30'` with the
+cache off (`AI201_CACHE=0`) finishes in under 7 seconds, measured by
+`duration_s` in the log — in 4 of 5 runs.
+
+**Why this target:**
+The 10 cache-off runs already logged averaged 5.84 s, with a fastest of 5.34 s and a slowest of 7.16 s. About 2.5 s of each run is search starting a new MCP server process, and changing search is out of scope, so a 5-second target would fail every run. 7 s leaves room for normal variation but is still below the slowest run seen. I allow one miss in five because both model calls go over the network and 1 of those 10 runs went over 7 s. Five runs is 10 model calls, under the 15-per-minute limit, so rate-limit pauses shouldn't affect the timing.
+
+## 4. The failure note is readable
+
+With `AI201_MODEL=no-such-model`, the note shown to the user contains no raw
+API error or stack trace (no `Traceback`, no error codes like `400` or
+`INVALID_ARGUMENT`, no `{'error': ...}`) — in 5 of 5 tries.
+
+**Why this target:**
+`_explain` in `generate.py` turns provider errors into fixed sentences, and it only recognizes certain wording. If the error says "not found" or "404" the user gets a clean sentence, but an error it doesn't recognize falls through to `Couldn't reach the model: {exc}`, which pastes the raw API text into the note. The same bad model name should reach the same branch every time, and a single leak is what this criterion exists to catch, so I allow no misses. Five tries instead of three because a forced failure costs no tokens, and the first three double as the tries for criterion 1.
+
+## 5. No results means no model calls
+
+When search finds nothing (`'designer ballgown size XXS under $5'`), the run
+makes 0 model calls, shown by `model_calls` in the log — in 5 of 5 tries.
+
+**Why this target:**
+Stopping is a Python branch (`if not session["search_results"]`) that returns before either model tool runs, and search itself doesn't use the model. The result doesn't depend on model output or on chance, so a single model call here means the branch is broken. That makes 5 of 5 the only sensible target. The one logged run of this query already shows `model_calls: 0`; the five tries check that it holds every time.
