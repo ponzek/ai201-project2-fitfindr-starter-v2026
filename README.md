@@ -157,6 +157,165 @@ own). The other ~2.5 s is MCP overhead: `mcp_client.py::call_tool` launches
 it can search. The outfit call is close behind; the fit card is fast because
 its output is short.
 
+## Run Log and Verdicts
+
+Run with `python capstone_eval.py --label before`. Each run is a real
+`python app.py ask ...` in its own process with the cache off. One trial is
+15 runs: 5 forced failures (`AI201_MODEL=no-such-model`, query
+`'denim jacket under $50'`), 5 normal runs (`'vintage graphic tee under $30'`),
+and 5 empty searches (`'designer ballgown size XXS under $5'`). Nothing was
+changed between trials; there is a 60 s pause between trials so the free-tier
+per-minute limit resets. Raw output: `results/capstone_before.json`.
+
+### Run Log — Before
+
+| Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
+|---|---|---|---|---|---|
+| 1. Failed model step still shows the listing | 3 of 3 | 3/3 | 3/3 | 3/3 | MET |
+| 2. Every run is logged | 15 of 15 | 15/15 | 15/15 | 15/15 | MET |
+| 3. Normal run under 7 s | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 3b. Tightened (diagnosis): normal run under 5 s | 4 of 5 | 1/5 | 5/5 | 5/5 | MISSED |
+| 4. Failure note has no raw error | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 5. No results means no model calls | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+
+Row 3b is not one of my five criteria. It is the tighter target from the
+diagnosis below, scored from the same saved runs.
+
+Normal-run times (`duration_s`), before:
+Trial 1 [5.089, 5.475, 5.009, 5.0, 4.688], Trial 2 [4.402, 4.196, 4.399, 4.454, 4.564], Trial 3 [4.541, 4.561, 4.951, 4.844, 4.34].
+
+### Real output (Trial 1, before)
+
+**Criteria 1 and 4** — printed by `app.py::_ask_one`; the listing is kept and
+the note is set by `agent.py::_run_steps` (the `except ModelUnavailable` around
+`suggest_outfit`), and the note text comes from `generate.py::_explain`:
+
+```
+Found:    Denim Jacket — Light Wash, Cropped — $42.0 on poshmark
+  Note:     Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.
+```
+
+**Criterion 2** — the log line written by `run_log.py::write_record` for that
+same forced failure:
+
+```
+{"timestamp": "2026-11-09T04:17:30+00:00", "query": "denim jacket under $50", "wardrobe_items": 10, "outcome": "partial", "selected_item": "lst_007", "has_outfit": false, "has_fit_card": false, "error": null, "warning": "Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.", "duration_s": 3.121, "step_s": {"search": 1.895, "outfit": 1.225}, "model_calls": 1, "prompt_tokens": 0, "output_tokens": 0, "model": "no-such-model", "timeout_s": 20.0}
+```
+
+**Criterion 3** — log line for a normal run (`run_log.py::write_record`), see
+`duration_s`:
+
+```
+{"timestamp": "2026-11-09T04:17:50+00:00", "query": "vintage graphic tee under $30", "wardrobe_items": 10, "outcome": "complete", "selected_item": "lst_006", "has_outfit": true, "has_fit_card": true, "error": null, "warning": null, "duration_s": 5.089, "step_s": {"search": 1.955, "outfit": 2.247, "fit_card": 0.886}, "model_calls": 2, "prompt_tokens": 728, "output_tokens": 196, "model": "gemini-3.5-flash-lite", "timeout_s": 20.0}
+```
+
+**Criterion 5** — log line for an empty search (`run_log.py::write_record`),
+see `model_calls`; the stop is the branch in `agent.py::_run_steps`:
+
+```
+{"timestamp": "2026-11-09T04:18:15+00:00", "query": "designer ballgown size XXS under $5", "wardrobe_items": 10, "outcome": "stopped_early", "selected_item": null, "has_outfit": false, "has_fit_card": false, "error": "No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').", "warning": null, "duration_s": 2.03, "step_s": {"search": 2.029}, "model_calls": 0, "prompt_tokens": 0, "output_tokens": 0, "model": "gemini-3.5-flash-lite", "timeout_s": 20.0}
+```
+
+### Verdicts and Diagnosis
+
+All five criteria were MET in all three trials.
+
+| # | Verdict | How I decided |
+|---|---|---|
+| 1 | MET | 3/3 in every trial: `Found:` line had title and price, and the `Note:` named the outfit step. |
+| 2 | MET | 15/15 in every trial: exactly one new line per run, all fields present, and the outcome matched (`partial`, `complete`, `stopped_early`). |
+| 3 | MET | 5/5 in every trial; slowest run 5.475 s, well under 7 s. |
+| 4 | MET | 5/5 in every trial: no `Traceback`, `400`, `INVALID_ARGUMENT`, or `{'error'`. |
+| 5 | MET | 5/5 in every trial: `model_calls` was 0. |
+
+**Which target was set too low, and the tighter one:**
+Criterion 3, a normal run under 7 s in 4 of 5, was too easy. I picked 7 s from
+10 earlier runs that averaged 5.84 s. In these trials normal runs averaged
+4.70 s and the slowest took 5.48 s, so it scored 5/5 every time with more than
+1.5 s to spare. A run could have slowed by a full second without the criterion
+noticing. I also wrote in `criteria.md` that a 5-second target "would fail every
+run" because search took about 2.5 s then. Search averaged 1.82 s here, and most
+runs came in under 5 s, so that was wrong.
+
+The tighter target is **a normal run under 5 s in 4 of 5** (row 3b). Trial 1
+misses it at 1/5.
+
+**Diagnosis of the tightened target's miss (Trial 1, 1/5):**
+The miss is latency in two tool steps: `tools.py::suggest_outfit` and the search
+call through `mcp_client.py::call_tool`. No logic failed, and every run
+completed. Those two steps take about 3.8 s of a normal run (outfit 2.00 s,
+search 1.82 s). With the fit card at 0.88 s, the average run is 4.70 s, which
+leaves only about 0.3 s under the target. Search is slow because `call_tool`
+starts a new `mcp_server.py` process on every call. The outfit step is slow
+because its prompt allowed two full looks with headings, the longest text in
+the run. The whole run writes about 224 output tokens, outfit and fit card
+combined.
+
+| Before, normal runs | Run average | Search | Outfit | Output tokens | Empty searches (no model) |
+|---|---|---|---|---|---|
+| Trial 1 | 5.05 s | 1.97 s | 2.21 s | 216 | 2.07 s |
+| Trial 2 | 4.40 s | 1.64 s | 1.85 s | 225 | 1.81 s |
+| Trial 3 | 4.65 s | 1.86 s | 1.93 s | 230 | 1.89 s |
+
+That small margin is why a slow trial went over: four of Trial 1's five runs
+landed between 5.0 s and 5.48 s. Output length does not explain why Trial 1 was
+the slow one, because it wrote the fewest tokens. Search and the outfit call
+both ran slower in that trial, and so did empty searches, which make no model
+calls. That points to general slowness during Trial 1, from the network or my
+machine; the logs can't tell me which. The outfit text was still the right thing
+to cut, because it is the largest step and search was out of scope.
+
+## The Improvement
+
+**What I changed:** in `tools.py::suggest_outfit`, the prompt now asks for ONE
+outfit in 2 or 3 sentences with no headings (it asked for "1 or 2"), and the
+call passes `max_output_tokens=150` through a new optional argument to
+`generate.py::generate`. Commit `2a6f7c0`.
+
+**Which failure it was meant to fix:** the tightened target 3b (under 5 s),
+missed in Trial 1. The outfit call was the biggest model step, and it was
+writing two full looks.
+
+### Run Log — After
+
+Run with `python capstone_eval.py --label after`, same setup. Raw output:
+`results/capstone_after.json`.
+
+| Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
+|---|---|---|---|---|---|
+| 1. Failed model step still shows the listing | 3 of 3 | 3/3 | 3/3 | 3/3 | MET |
+| 2. Every run is logged | 15 of 15 | 15/15 | 15/15 | 15/15 | MET |
+| 3. Normal run under 7 s | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 3b. Tightened (diagnosis): normal run under 5 s | 4 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 4. Failure note has no raw error | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+| 5. No results means no model calls | 5 of 5 | 5/5 | 5/5 | 5/5 | MET |
+
+Normal-run times (`duration_s`), after:
+Trial 1 [4.222, 4.375, 3.964, 4.354, 4.494], Trial 2 [4.669, 4.428, 4.115, 4.219, 4.219], Trial 3 [4.583, 4.315, 4.23, 4.712, 4.138].
+
+| 15 normal runs | Before | After |
+|---|---|---|
+| Average run | 4.70 s | 4.34 s |
+| Slowest run | 5.48 s | 4.71 s |
+| Outfit step (average) | 2.00 s | 1.71 s |
+| Search step (average, not changed) | 1.82 s | 1.74 s |
+| Output tokens per run | 224 | 140 |
+
+**Did it help, and how do I know:** yes. The tightened target went from MISSED
+(1/5, 5/5, 5/5) to MET (5/5 in all three trials), and every original criterion
+stayed MET. The outfit step got 0.29 s faster on average. Part of the overall
+gain is likely normal variation: search, which I didn't change, also got
+0.08 s faster, and only Trial 1 was slow before.
+
+**What it cost elsewhere:** users now get one outfit instead of two. The
+Unit 3 Tool Inventory still says "1–2 outfit combinations". Output tokens fell
+37%, so each run is also slightly cheaper. An "after" outfit:
+
+```
+Outfit:   Channel effortless 90s grunge by pairing the vintage graphic tee with your baggy dark wash jeans and black combat boots for that classic slouchy silhouette. Throw your slightly cropped vintage black denim jacket over the top and accessorize with your black crossbody bag to complete the ultimate streetwear-ready look.
+```
+
+
 ---
 
 <!-- ─────────────────────────────────────────────────────────────────────────
