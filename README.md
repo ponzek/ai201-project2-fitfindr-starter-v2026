@@ -235,7 +235,7 @@ Criterion 3, a normal run under 7 s in 4 of 5, was too easy. I picked 7 s from
 1.5 s to spare. A run could have slowed by a full second without the criterion
 noticing. I also wrote in `criteria.md` that a 5-second target "would fail every
 run" because search took about 2.5 s then. Search averaged 1.82 s here, and most
-runs came in under 5 s, so that was wrong.
+runs came in under 5 s, so that was true of the earlier runs but not of these trials.
 
 The tighter target is **a normal run under 5 s in 4 of 5** (row 3b). Trial 1
 misses it at 1/5.
@@ -274,7 +274,10 @@ call passes `max_output_tokens=150` through a new optional argument to
 
 **Which failure it was meant to fix:** the tightened target 3b (under 5 s),
 missed in Trial 1. The outfit call was the biggest model step, and it was
-writing two full looks.
+writing two full looks. The diagnosis says Trial 1 was slow for reasons the
+code doesn't control, so this change can't remove that cause. Shortening the
+largest step gives runs more room under 5 s, so a slow session like Trial 1
+still passes.
 
 ### Run Log — After
 
