@@ -215,7 +215,12 @@ def _explain(exc: Exception) -> str:
             f"AI201_MODEL in your .env, put it back. Otherwise post in the help "
             f"channel — this is not something you caused."
         )
-    if "connection" in message or "timeout" in message or "network" in message:
+    if "timed out" in message or "timeout" in message:
+        return (
+            f"The model took longer than {config.MODEL_TIMEOUT_SECONDS:.0f}s "
+            f"to answer, so FitFindr stopped waiting."
+        )
+    if "connection" in message or "network" in message:
         return "Couldn't reach the model. Check your internet connection and try again."
     return f"Couldn't reach the model: {exc}"
 
@@ -303,7 +308,12 @@ def generate(
             _call_times.append(time.monotonic())
             _session_calls += 1
 
-            call_config = {"temperature": temperature}
+            # The SDK takes its timeout in milliseconds.
+            timeout_ms = int(config.MODEL_TIMEOUT_SECONDS * 1000)
+            call_config = {
+                "temperature": temperature,
+                "http_options": {"timeout": timeout_ms},
+            }
             if system:
                 call_config["system_instruction"] = system
             kwargs = {

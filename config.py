@@ -86,6 +86,12 @@ REQUESTS_PER_MINUTE = 15
 SESSION_REQUEST_BUDGET = 300
 MAX_RETRIES = 5
 
+# Capstone: the longest one model call may take before we give up on it.
+# A normal call takes a few seconds, so 20s only cuts off calls that are stuck.
+# Gemini rejects anything under 10s ("Minimum allowed deadline is 10s"), so
+# values below 10 are raised to 10. Override with AI201_MODEL_TIMEOUT (seconds).
+MODEL_TIMEOUT_SECONDS = max(10.0, float(os.getenv("AI201_MODEL_TIMEOUT", "20")))
+
 CACHE_DIR = ROOT / ".cache"
 
 
