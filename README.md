@@ -99,7 +99,7 @@ FitFindr is an AI-powered personal shopping and styling assistant for secondhand
 
 - **What it does:** Searches thrift store listings and filters them by keywords, optional size, and maximum price ceiling.
 - **Inputs:** `description` (str), `size` (str or None), `max_price` (float or None).
-- **Returns:** A list of listing dicts (at most 3), best match first, each containing `id` (str), `title` (str), `description` (str), `category` (str), `style_tags` (list[str]), `size` (str), `condition` (str), `price` (float), `colors` (list[str]), `brand` (str or None), and `platform` (str).
+- **Returns:** A list of listing dicts (at most 10, set by `config.SEARCH_RESULT_LIMIT`), best match first, each containing `id` (str), `title` (str), `description` (str), `category` (str), `style_tags` (list[str]), `size` (str), `condition` (str), `price` (float), `colors` (list[str]), `brand` (str or None), and `platform` (str). The trace prints only the first 3 titles and counts the rest (`trace.py::_short`), and the agent uses only the first result.
 - **When it has nothing:** An empty list (`[]`), never `None` or an exception.
 
 ### `suggest_outfit`
@@ -449,11 +449,12 @@ All three failure modes were intentionally triggered and verified:
      `python run_eval.py --label after` -->
 
 **What I changed:**
-1. In `tools.py::create_fit_card`, added clean price formatting (`f"${int(raw_price)}"` for whole-dollar amounts like `$30` instead of `$30.0`) and normalized platform casing using `.capitalize()` (`Depop`, `Poshmark`, `ThredUp`).
-2. In `agent.py::parse_query`, expanded the price regex parser to recognize natural language variations such as `less than $X`, `below $X`, and `cheaper than $X` in addition to `under $X`.
+In `tools.py::create_fit_card`, added clean price formatting (`f"${int(raw_price)}"` for whole-dollar amounts like `$30` instead of `$30.0`) and normalized platform casing using `.capitalize()` (`Depop`, `Poshmark`, `ThredUp`). This is the one measured improvement.
+
+*Separate change, not part of the measured improvement:* in the same round I also expanded the price regex in `agent.py::parse_query` to recognize `less than $X`, `below $X`, and `cheaper than $X`. None of my five criteria use those phrasings (every test query says `under $X`), so the after-run doesn't measure this change, and it can't explain any difference between the two tables.
 
 **Which failure it was meant to fix:**
-Addresses caption realism in Criterion 4 (preventing robotic float price strings like `$30.0` and lowercase platform tags) and improves query parsing robustness for conversational budget constraints.
+Addresses caption realism in Criterion 4 (preventing robotic float price strings like `$30.0` and lowercase platform tags).
 
 ### Run Log — After
 
