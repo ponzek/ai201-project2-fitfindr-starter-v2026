@@ -20,6 +20,44 @@
 
 ---
 
+<!-- ═══════════════════════ UNIT 9 — THE CAPSTONE ═══════════════════════
+     The capstone sections come first. The Unit 3 and Unit 4 sections below
+     are left as they were submitted.
+     ═════════════════════════════════════════════════════════════════════ -->
+
+# Unit 9 — Capstone
+
+## What This Extends
+
+This extends **FitFindr**, my thrift-shopping agent from Units 3 and 4. It
+searches listings, then makes two Gemini calls: one to suggest an outfit and
+one to write a fit card.
+
+**What's new:** when a model call fails, the run no longer ends with only an
+error. The user still gets the listing that search found, plus a clear note
+saying which step failed.
+
+## The Shape
+
+**Shape B — harden against failure.**
+
+Right now, if either Gemini call fails, hangs, or returns nothing, the user
+loses everything, including the listing search already found. I'm adding one
+failure layer around the two model steps: a time limit on each call, and a
+fallback so the user always gets the listing plus a note about what didn't
+work.
+
+**Out of scope:**
+
+- I'm not changing search, synonyms, or the MCP server.
+- I'm not adding multi-turn conversation or showing a second listing.
+- I'm not hosting it. It runs locally with logs (Path B).
+
+**Stretch I'm declaring before I build:** a latency breakdown — how long each
+step of one run takes (search, outfit, fit card), measured from the logs.
+
+---
+
 <!-- ─────────────────────────────────────────────────────────────────────────
      HOW TO USE THIS FILE
 
