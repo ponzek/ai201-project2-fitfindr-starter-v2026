@@ -96,10 +96,10 @@ def check_c2(run: dict, expected_outcome: str) -> bool:
     return record["outcome"] == expected_outcome
 
 
-def check_c3(run: dict) -> bool:
-    """Normal run finishes in under 7 seconds (duration_s)."""
+def check_c3(run: dict, limit_s: float = 7.0) -> bool:
+    """Normal run finishes in under the limit (duration_s). 7 s is criterion 3."""
     record = run["record"]
-    return bool(record) and record["outcome"] == "complete" and record["duration_s"] < 7.0
+    return bool(record) and record["outcome"] == "complete" and record["duration_s"] < limit_s
 
 
 def check_c4(run: dict) -> bool:
@@ -137,6 +137,7 @@ def run_trial(n: int) -> dict:
             1: (sum(check_c1(r) for r in failures[:3]), 3),
             2: (sum(c2_runs), len(c2_runs)),
             3: (sum(check_c3(r) for r in normals), RUNS_PER_GROUP),
+            "3b": (sum(check_c3(r, limit_s=5.0) for r in normals), RUNS_PER_GROUP),
             4: (sum(check_c4(r) for r in failures), RUNS_PER_GROUP),
             5: (sum(check_c5(r) for r in empties), RUNS_PER_GROUP),
         },
@@ -150,6 +151,9 @@ CRITERIA = {
     1: ("Failed model step still shows the listing", 3, 3),
     2: ("Every run is logged", 15, 15),
     3: ("Normal run under 7 s", 4, 5),
+    # Not in criteria.md: the tighter target named in the README diagnosis,
+    # after the first results showed criterion 3 had slack.
+    "3b": ("Tightened: normal run under 5 s", 4, 5),
     4: ("Failure note has no raw error", 5, 5),
     5: ("No results means no model calls", 5, 5),
 }
