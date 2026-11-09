@@ -1,0 +1,1382 @@
+[
+  {
+    "trial": 1,
+    "scores": {
+      "1": [
+        3,
+        3
+      ],
+      "2": [
+        15,
+        15
+      ],
+      "3": [
+        5,
+        5
+      ],
+      "4": [
+        5,
+        5
+      ],
+      "5": [
+        5,
+        5
+      ]
+    },
+    "durations": [
+      5.089,
+      5.475,
+      5.009,
+      5.0,
+      4.688
+    ],
+    "runs": {
+      "failures": [
+        {
+          "query": "denim jacket under $50",
+          "broken_model": true,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 7 items: Denim Jacket — Light Wash, Cropped, High-Waisted Denim Shorts — Cutoff, Denim Vest — Medium Wash, Studded … +4 more\n[2] suggest_outfit\n      in:  dict with keys: item\n      →    model failed, returning the listing only\n\n  Found:    Denim Jacket — Light Wash, Cropped — $42.0 on poshmark\n\n  Outfit:   None\n\n  Fit card: None\n\n  Note:     Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.\n\n1 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:17:30+00:00",
+            "query": "denim jacket under $50",
+            "wardrobe_items": 10,
+            "outcome": "partial",
+            "selected_item": "lst_007",
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": null,
+            "warning": "Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.",
+            "duration_s": 3.121,
+            "step_s": {
+              "search": 1.895,
+              "outfit": 1.225
+            },
+            "model_calls": 1,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "no-such-model",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "denim jacket under $50",
+          "broken_model": true,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 7 items: Denim Jacket — Light Wash, Cropped, High-Waisted Denim Shorts — Cutoff, Denim Vest — Medium Wash, Studded … +4 more\n[2] suggest_outfit\n      in:  dict with keys: item\n      →    model failed, returning the listing only\n\n  Found:    Denim Jacket — Light Wash, Cropped — $42.0 on poshmark\n\n  Outfit:   None\n\n  Fit card: None\n\n  Note:     Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.\n\n1 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:17:34+00:00",
+            "query": "denim jacket under $50",
+            "wardrobe_items": 10,
+            "outcome": "partial",
+            "selected_item": "lst_007",
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": null,
+            "warning": "Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.",
+            "duration_s": 3.081,
+            "step_s": {
+              "search": 1.884,
+              "outfit": 1.196
+            },
+            "model_calls": 1,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "no-such-model",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "denim jacket under $50",
+          "broken_model": true,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 7 items: Denim Jacket — Light Wash, Cropped, High-Waisted Denim Shorts — Cutoff, Denim Vest — Medium Wash, Studded … +4 more\n[2] suggest_outfit\n      in:  dict with keys: item\n      →    model failed, returning the listing only\n\n  Found:    Denim Jacket — Light Wash, Cropped — $42.0 on poshmark\n\n  Outfit:   None\n\n  Fit card: None\n\n  Note:     Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.\n\n1 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:17:38+00:00",
+            "query": "denim jacket under $50",
+            "wardrobe_items": 10,
+            "outcome": "partial",
+            "selected_item": "lst_007",
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": null,
+            "warning": "Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.",
+            "duration_s": 3.37,
+            "step_s": {
+              "search": 1.983,
+              "outfit": 1.385
+            },
+            "model_calls": 1,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "no-such-model",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "denim jacket under $50",
+          "broken_model": true,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 7 items: Denim Jacket — Light Wash, Cropped, High-Waisted Denim Shorts — Cutoff, Denim Vest — Medium Wash, Studded … +4 more\n[2] suggest_outfit\n      in:  dict with keys: item\n      →    model failed, returning the listing only\n\n  Found:    Denim Jacket — Light Wash, Cropped — $42.0 on poshmark\n\n  Outfit:   None\n\n  Fit card: None\n\n  Note:     Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.\n\n1 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:17:41+00:00",
+            "query": "denim jacket under $50",
+            "wardrobe_items": 10,
+            "outcome": "partial",
+            "selected_item": "lst_007",
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": null,
+            "warning": "Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.",
+            "duration_s": 2.992,
+            "step_s": {
+              "search": 1.821,
+              "outfit": 1.17
+            },
+            "model_calls": 1,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "no-such-model",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "denim jacket under $50",
+          "broken_model": true,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 7 items: Denim Jacket — Light Wash, Cropped, High-Waisted Denim Shorts — Cutoff, Denim Vest — Medium Wash, Studded … +4 more\n[2] suggest_outfit\n      in:  dict with keys: item\n      →    model failed, returning the listing only\n\n  Found:    Denim Jacket — Light Wash, Cropped — $42.0 on poshmark\n\n  Outfit:   None\n\n  Fit card: None\n\n  Note:     Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.\n\n1 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:17:45+00:00",
+            "query": "denim jacket under $50",
+            "wardrobe_items": 10,
+            "outcome": "partial",
+            "selected_item": "lst_007",
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": null,
+            "warning": "Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.",
+            "duration_s": 3.435,
+            "step_s": {
+              "search": 2.307,
+              "outfit": 1.126
+            },
+            "model_calls": 1,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "no-such-model",
+            "timeout_s": 20.0
+          }
+        }
+      ],
+      "normals": [
+        {
+          "query": "vintage graphic tee under $30",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 10 items: Graphic Tee — 2003 Tour Bootleg Style, Vintage Band Tee — Faded Grey, Vintage Graphic Hoodie — Faded Black … +7 more\n[2] suggest_outfit\n      in:  dict with keys: item, wardrobe_items\n      out: **Look 1: 90s Grunge Streetwear** Pair the graphic tee with your baggy dark wash jeans and black combat boots …\n[3] create_fit_card\n      in:  dict with keys: item, price\n      out: Absolute score on Depop today with this 2003 tour bootleg graphic tee for just $24! The 100% cotton is perfect…\n\n  Found:    Graphic Tee — 2003 Tour Bootleg Style — $24.0 on depop\n\n  Outfit:   **Look 1: 90s Grunge Streetwear**\nPair the graphic tee with your baggy dark wash jeans and black combat boots for an effortless, authentic vintage feel. Throw your vintage black denim jacket over the shoulders and finish with the black crossbody bag to complete the monochrome edge.\n\n**Look 2: Elevated Casual Contrast**\nTuck the slightly boxy tee into your wide-leg khaki trousers and cinch the waist with the brown leather belt to balance the proportions. Step into your chunky white sneakers for a modern streetwear juxtaposition that makes the earth tones and faded black pop.\n\n  Fit card: Absolute score on Depop today with this 2003 tour bootleg graphic tee for just $24! The 100% cotton is perfectly worn-in with that ideal boxy fit, making it stupidly easy to style for 90s grunge streetwear or dress up with crisp khaki trousers. Grab it before I change my mind and keep it for myself!\n\n2 model calls this session, 728 prompt + 196 output tokens\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:17:50+00:00",
+            "query": "vintage graphic tee under $30",
+            "wardrobe_items": 10,
+            "outcome": "complete",
+            "selected_item": "lst_006",
+            "has_outfit": true,
+            "has_fit_card": true,
+            "error": null,
+            "warning": null,
+            "duration_s": 5.089,
+            "step_s": {
+              "search": 1.955,
+              "outfit": 2.247,
+              "fit_card": 0.886
+            },
+            "model_calls": 2,
+            "prompt_tokens": 728,
+            "output_tokens": 196,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "vintage graphic tee under $30",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 10 items: Graphic Tee — 2003 Tour Bootleg Style, Vintage Band Tee — Faded Grey, Vintage Graphic Hoodie — Faded Black … +7 more\n[2] suggest_outfit\n      in:  dict with keys: item, wardrobe_items\n      out: **Look 1: 90s Streetwear Grunge** Pair the graphic tee with your **baggy dark wash straight-leg jeans** and an…\n[3] create_fit_card\n      in:  dict with keys: item, price\n      out: Just scored this 2003 tour bootleg graphic tee for only $24 on Depop and I am obsessed with the perfectly fade…\n\n  Found:    Graphic Tee — 2003 Tour Bootleg Style — $24.0 on depop\n\n  Outfit:   **Look 1: 90s Streetwear Grunge**\nPair the graphic tee with your **baggy dark wash straight-leg jeans** and anchor the look with your **black combat boots** and **black crossbody bag**. Throw your **vintage black denim jacket** over the top to play into the worn-in, vintage aesthetic.\n\n**Look 2: Elevated Off-Duty Contrast**\nTuck the boxy tee into your **wide-leg khaki trousers**, cinched at the waist with your **brown leather belt** for a subtle earth-tone contrast. Finish the outfit with your **chunky white sneakers** to balance the relaxed streetwear vibe with clean, minimal lines.\n\n  Fit card: Just scored this 2003 tour bootleg graphic tee for only $24 on Depop and I am obsessed with the perfectly faded look! The boxy 100% cotton fit gives off the ultimate 90s streetwear grunge energy, but it looks equally good tucked into wide-leg trousers for a cool high-low contrast. Run, don't walk, to my shop before I talk myself into keeping this dreamy piece!\n\n2 model calls this session, 750 prompt + 232 output tokens\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:17:56+00:00",
+            "query": "vintage graphic tee under $30",
+            "wardrobe_items": 10,
+            "outcome": "complete",
+            "selected_item": "lst_006",
+            "has_outfit": true,
+            "has_fit_card": true,
+            "error": null,
+            "warning": null,
+            "duration_s": 5.475,
+            "step_s": {
+              "search": 1.989,
+              "outfit": 2.524,
+              "fit_card": 0.961
+            },
+            "model_calls": 2,
+            "prompt_tokens": 750,
+            "output_tokens": 232,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "vintage graphic tee under $30",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 10 items: Graphic Tee — 2003 Tour Bootleg Style, Vintage Band Tee — Faded Grey, Vintage Graphic Hoodie — Faded Black … +7 more\n[2] suggest_outfit\n      in:  dict with keys: item, wardrobe_items\n      out: **Look 1: 90s Grunge Streetwear** Pair the graphic tee with your baggy dark-wash straight-leg jeans and black …\n[3] create_fit_card\n      in:  dict with keys: item, price\n      out: Just scored this insanely soft 2003 tour bootleg tee on Depop for only $24, and the worn-in fade is actual per…\n\n  Found:    Graphic Tee — 2003 Tour Bootleg Style — $24.0 on depop\n\n  Outfit:   **Look 1: 90s Grunge Streetwear**\nPair the graphic tee with your baggy dark-wash straight-leg jeans and black combat boots for an effortless, authentic vintage feel. Throw the slightly cropped vintage black denim jacket over top to tie the monochrome wash together, and finish with your black crossbody bag.\n\n**Look 2: Elevated Contrast**\nTuck the slightly boxy tee into your wide-leg khaki trousers and accent the waist with your brown leather belt to balance the proportions. Slip on your chunky white sneakers and layer the black cropped zip hoodie open over the tee for a modern streetwear edge.\n\n  Fit card: Just scored this insanely soft 2003 tour bootleg tee on Depop for only $24, and the worn-in fade is actual perfection. I’m obsessed with the slightly boxy fit, so I can't wait to style it for 90s grunge streetwear with dark-wash jeans and combat boots. Such a good vintage find for the rotation!\n\n2 model calls this session, 736 prompt + 204 output tokens\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:18:02+00:00",
+            "query": "vintage graphic tee under $30",
+            "wardrobe_items": 10,
+            "outcome": "complete",
+            "selected_item": "lst_006",
+            "has_outfit": true,
+            "has_fit_card": true,
+            "error": null,
+            "warning": null,
+            "duration_s": 5.009,
+            "step_s": {
+              "search": 2.079,
+              "outfit": 2.157,
+              "fit_card": 0.772
+            },
+            "model_calls": 2,
+            "prompt_tokens": 736,
+            "output_tokens": 204,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "vintage graphic tee under $30",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 10 items: Graphic Tee — 2003 Tour Bootleg Style, Vintage Band Tee — Faded Grey, Vintage Graphic Hoodie — Faded Black … +7 more\n[2] suggest_outfit\n      in:  dict with keys: item, wardrobe_items\n      out: **The Ultimate Grunge Streetwear Look** Pair the graphic tee with your **baggy straight-leg jeans** (tucked in…\n[3] create_fit_card\n      in:  dict with keys: item, price\n      out: Still geeking out over this 2003 tour bootleg tee I just scored on Depop for only $24! It’s got that perfectly…\n\n  Found:    Graphic Tee — 2003 Tour Bootleg Style — $24.0 on depop\n\n  Outfit:   **The Ultimate Grunge Streetwear Look**\nPair the graphic tee with your **baggy straight-leg jeans** (tucked in slightly to define the waist) and lace them up with your **black combat boots**. Throw your **vintage black denim jacket** on top and complete the fit with the **black crossbody bag** for an effortless, authentic 90s-inspired edge.\n\n**High-Low Contrast Look**\nTuck the slightly boxy tee into your **wide-leg khaki trousers** and cinch the waist with the **brown leather belt** to add a touch of structure. Slip on your **chunky white sneakers** and sling your **black crossbody bag** across your chest to balance the earth tones with streetwear freshness.\n\n  Fit card: Still geeking out over this 2003 tour bootleg tee I just scored on Depop for only $24! It’s got that perfectly faded graphic and soft, worn-in boxy fit that looks unreal paired with baggy denim and combat boots for instant 90s grunge edge. Honestly, I might also switch it up with wide-leg trousers and chunky sneakers for that effortless high-low streetwear vibe.\n\n2 model calls this session, 760 prompt + 238 output tokens\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:18:07+00:00",
+            "query": "vintage graphic tee under $30",
+            "wardrobe_items": 10,
+            "outcome": "complete",
+            "selected_item": "lst_006",
+            "has_outfit": true,
+            "has_fit_card": true,
+            "error": null,
+            "warning": null,
+            "duration_s": 5.0,
+            "step_s": {
+              "search": 1.948,
+              "outfit": 2.109,
+              "fit_card": 0.941
+            },
+            "model_calls": 2,
+            "prompt_tokens": 760,
+            "output_tokens": 238,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "vintage graphic tee under $30",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 10 items: Graphic Tee — 2003 Tour Bootleg Style, Vintage Band Tee — Faded Grey, Vintage Graphic Hoodie — Faded Black … +7 more\n[2] suggest_outfit\n      in:  dict with keys: item, wardrobe_items\n      out: **Look 1: 90s Grunge Streetwear** Pair the graphic tee with your baggy dark-wash straight-leg jeans and black …\n[3] create_fit_card\n      in:  dict with keys: item, price\n      out: I am still not over scoring this 2003 tour bootleg graphic tee for just $24 on Depop! The 100% cotton is perfe…\n\n  Found:    Graphic Tee — 2003 Tour Bootleg Style — $24.0 on depop\n\n  Outfit:   **Look 1: 90s Grunge Streetwear**\nPair the graphic tee with your baggy dark-wash straight-leg jeans and black combat boots for an effortless, authentic vintage look. Throw on your vintage black denim jacket on top and finish with the black crossbody bag to lean fully into the streetwear vibe. \n\n**Look 2: Contrast Minimal/Edgy**\nTuck the slightly boxy tee into your wide-leg khaki trousers, accented with the brown leather belt to break up the silhouette, and ground the outfit with your chunky white sneakers. Layer your black cropped zip hoodie loosely over your shoulders for a casual, textured finish.\n\n  Fit card: I am still not over scoring this 2003 tour bootleg graphic tee for just $24 on Depop! The 100% cotton is perfectly worn-in, so it’s giving major 90s grunge streetwear vibes paired with baggy dark-wash denim and combat boots. Honestly, it's about to be my entire personality this season.\n\n2 model calls this session, 742 prompt + 209 output tokens\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:18:12+00:00",
+            "query": "vintage graphic tee under $30",
+            "wardrobe_items": 10,
+            "outcome": "complete",
+            "selected_item": "lst_006",
+            "has_outfit": true,
+            "has_fit_card": true,
+            "error": null,
+            "warning": null,
+            "duration_s": 4.688,
+            "step_s": {
+              "search": 1.9,
+              "outfit": 2.017,
+              "fit_card": 0.77
+            },
+            "model_calls": 2,
+            "prompt_tokens": 742,
+            "output_tokens": 209,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        }
+      ],
+      "empties": [
+        {
+          "query": "designer ballgown size XXS under $5",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: [] (empty)\n      →    branch: empty search, stopping early\n\n  No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').\n\n0 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:18:15+00:00",
+            "query": "designer ballgown size XXS under $5",
+            "wardrobe_items": 10,
+            "outcome": "stopped_early",
+            "selected_item": null,
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": "No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').",
+            "warning": null,
+            "duration_s": 2.03,
+            "step_s": {
+              "search": 2.029
+            },
+            "model_calls": 0,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "designer ballgown size XXS under $5",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: [] (empty)\n      →    branch: empty search, stopping early\n\n  No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').\n\n0 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:18:18+00:00",
+            "query": "designer ballgown size XXS under $5",
+            "wardrobe_items": 10,
+            "outcome": "stopped_early",
+            "selected_item": null,
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": "No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').",
+            "warning": null,
+            "duration_s": 2.452,
+            "step_s": {
+              "search": 2.45
+            },
+            "model_calls": 0,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "designer ballgown size XXS under $5",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: [] (empty)\n      →    branch: empty search, stopping early\n\n  No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').\n\n0 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:18:20+00:00",
+            "query": "designer ballgown size XXS under $5",
+            "wardrobe_items": 10,
+            "outcome": "stopped_early",
+            "selected_item": null,
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": "No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').",
+            "warning": null,
+            "duration_s": 1.985,
+            "step_s": {
+              "search": 1.984
+            },
+            "model_calls": 0,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "designer ballgown size XXS under $5",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: [] (empty)\n      →    branch: empty search, stopping early\n\n  No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').\n\n0 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:18:22+00:00",
+            "query": "designer ballgown size XXS under $5",
+            "wardrobe_items": 10,
+            "outcome": "stopped_early",
+            "selected_item": null,
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": "No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').",
+            "warning": null,
+            "duration_s": 2.026,
+            "step_s": {
+              "search": 2.025
+            },
+            "model_calls": 0,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "designer ballgown size XXS under $5",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: [] (empty)\n      →    branch: empty search, stopping early\n\n  No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').\n\n0 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:18:24+00:00",
+            "query": "designer ballgown size XXS under $5",
+            "wardrobe_items": 10,
+            "outcome": "stopped_early",
+            "selected_item": null,
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": "No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').",
+            "warning": null,
+            "duration_s": 1.836,
+            "step_s": {
+              "search": 1.835
+            },
+            "model_calls": 0,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        }
+      ]
+    }
+  },
+  {
+    "trial": 2,
+    "scores": {
+      "1": [
+        3,
+        3
+      ],
+      "2": [
+        15,
+        15
+      ],
+      "3": [
+        5,
+        5
+      ],
+      "4": [
+        5,
+        5
+      ],
+      "5": [
+        5,
+        5
+      ]
+    },
+    "durations": [
+      4.402,
+      4.196,
+      4.399,
+      4.454,
+      4.564
+    ],
+    "runs": {
+      "failures": [
+        {
+          "query": "denim jacket under $50",
+          "broken_model": true,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 7 items: Denim Jacket — Light Wash, Cropped, High-Waisted Denim Shorts — Cutoff, Denim Vest — Medium Wash, Studded … +4 more\n[2] suggest_outfit\n      in:  dict with keys: item\n      →    model failed, returning the listing only\n\n  Found:    Denim Jacket — Light Wash, Cropped — $42.0 on poshmark\n\n  Outfit:   None\n\n  Fit card: None\n\n  Note:     Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.\n\n1 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:19:28+00:00",
+            "query": "denim jacket under $50",
+            "wardrobe_items": 10,
+            "outcome": "partial",
+            "selected_item": "lst_007",
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": null,
+            "warning": "Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.",
+            "duration_s": 3.318,
+            "step_s": {
+              "search": 2.252,
+              "outfit": 1.066
+            },
+            "model_calls": 1,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "no-such-model",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "denim jacket under $50",
+          "broken_model": true,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 7 items: Denim Jacket — Light Wash, Cropped, High-Waisted Denim Shorts — Cutoff, Denim Vest — Medium Wash, Studded … +4 more\n[2] suggest_outfit\n      in:  dict with keys: item\n      →    model failed, returning the listing only\n\n  Found:    Denim Jacket — Light Wash, Cropped — $42.0 on poshmark\n\n  Outfit:   None\n\n  Fit card: None\n\n  Note:     Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.\n\n1 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:19:31+00:00",
+            "query": "denim jacket under $50",
+            "wardrobe_items": 10,
+            "outcome": "partial",
+            "selected_item": "lst_007",
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": null,
+            "warning": "Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.",
+            "duration_s": 2.68,
+            "step_s": {
+              "search": 1.658,
+              "outfit": 1.02
+            },
+            "model_calls": 1,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "no-such-model",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "denim jacket under $50",
+          "broken_model": true,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 7 items: Denim Jacket — Light Wash, Cropped, High-Waisted Denim Shorts — Cutoff, Denim Vest — Medium Wash, Studded … +4 more\n[2] suggest_outfit\n      in:  dict with keys: item\n      →    model failed, returning the listing only\n\n  Found:    Denim Jacket — Light Wash, Cropped — $42.0 on poshmark\n\n  Outfit:   None\n\n  Fit card: None\n\n  Note:     Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.\n\n1 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:19:34+00:00",
+            "query": "denim jacket under $50",
+            "wardrobe_items": 10,
+            "outcome": "partial",
+            "selected_item": "lst_007",
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": null,
+            "warning": "Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.",
+            "duration_s": 2.63,
+            "step_s": {
+              "search": 1.629,
+              "outfit": 1.0
+            },
+            "model_calls": 1,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "no-such-model",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "denim jacket under $50",
+          "broken_model": true,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 7 items: Denim Jacket — Light Wash, Cropped, High-Waisted Denim Shorts — Cutoff, Denim Vest — Medium Wash, Studded … +4 more\n[2] suggest_outfit\n      in:  dict with keys: item\n      →    model failed, returning the listing only\n\n  Found:    Denim Jacket — Light Wash, Cropped — $42.0 on poshmark\n\n  Outfit:   None\n\n  Fit card: None\n\n  Note:     Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.\n\n1 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:19:37+00:00",
+            "query": "denim jacket under $50",
+            "wardrobe_items": 10,
+            "outcome": "partial",
+            "selected_item": "lst_007",
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": null,
+            "warning": "Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.",
+            "duration_s": 2.812,
+            "step_s": {
+              "search": 1.728,
+              "outfit": 1.083
+            },
+            "model_calls": 1,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "no-such-model",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "denim jacket under $50",
+          "broken_model": true,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 7 items: Denim Jacket — Light Wash, Cropped, High-Waisted Denim Shorts — Cutoff, Denim Vest — Medium Wash, Studded … +4 more\n[2] suggest_outfit\n      in:  dict with keys: item\n      →    model failed, returning the listing only\n\n  Found:    Denim Jacket — Light Wash, Cropped — $42.0 on poshmark\n\n  Outfit:   None\n\n  Fit card: None\n\n  Note:     Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.\n\n1 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:19:40+00:00",
+            "query": "denim jacket under $50",
+            "wardrobe_items": 10,
+            "outcome": "partial",
+            "selected_item": "lst_007",
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": null,
+            "warning": "Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.",
+            "duration_s": 2.741,
+            "step_s": {
+              "search": 1.507,
+              "outfit": 1.233
+            },
+            "model_calls": 1,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "no-such-model",
+            "timeout_s": 20.0
+          }
+        }
+      ],
+      "normals": [
+        {
+          "query": "vintage graphic tee under $30",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 10 items: Graphic Tee — 2003 Tour Bootleg Style, Vintage Band Tee — Faded Grey, Vintage Graphic Hoodie — Faded Black … +7 more\n[2] suggest_outfit\n      in:  dict with keys: item, wardrobe_items\n      out: **Look 1: 90s Grunge Streetwear** Pair the graphic tee with your baggy dark-wash straight-leg jeans, and layer…\n[3] create_fit_card\n      in:  dict with keys: item, price\n      out: Just scored the ultimate 2003 tour bootleg graphic tee on Depop for only $24, and the faded, worn-in cotton is…\n\n  Found:    Graphic Tee — 2003 Tour Bootleg Style — $24.0 on depop\n\n  Outfit:   **Look 1: 90s Grunge Streetwear**\nPair the graphic tee with your baggy dark-wash straight-leg jeans, and layer the cropped black zip hoodie slightly open on top for dimension. Finish this effortless, street-ready outfit with your black combat boots and the black crossbody bag.\n\n**Look 2: Edgy Contrast**\nTuck the slightly boxy tee into your wide-leg khaki trousers, accented with your brown leather belt to pull in the earth tones. Throw on the vintage black denim jacket and complete the vibe with your chunky white sneakers for a cool, high-low mix of grunge and minimal style.\n\n  Fit card: Just scored the ultimate 2003 tour bootleg graphic tee on Depop for only $24, and the faded, worn-in cotton is literal perfection! I am so obsessed with the slightly boxy fit—it looks unreal styled for 90s grunge streetwear with baggy jeans and combat boots, or dressed down with khaki trousers for an effortless high-low mix. Run, don't walk, because finds like this never stay in my cart long!\n\n2 model calls this session, 741 prompt + 227 output tokens\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:19:45+00:00",
+            "query": "vintage graphic tee under $30",
+            "wardrobe_items": 10,
+            "outcome": "complete",
+            "selected_item": "lst_006",
+            "has_outfit": true,
+            "has_fit_card": true,
+            "error": null,
+            "warning": null,
+            "duration_s": 4.402,
+            "step_s": {
+              "search": 1.685,
+              "outfit": 1.9,
+              "fit_card": 0.815
+            },
+            "model_calls": 2,
+            "prompt_tokens": 741,
+            "output_tokens": 227,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "vintage graphic tee under $30",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 10 items: Graphic Tee — 2003 Tour Bootleg Style, Vintage Band Tee — Faded Grey, Vintage Graphic Hoodie — Faded Black … +7 more\n[2] suggest_outfit\n      in:  dict with keys: item, wardrobe_items\n      out: **Look 1: 90s Streetwear Grunge** Pair the graphic tee with your **baggy straight-leg jeans** and **black comb…\n[3] create_fit_card\n      in:  dict with keys: item, price\n      out: I am still not over scoring this buttery soft, perfectly faded 2003 tour bootleg graphic tee for just $24 on D…\n\n  Found:    Graphic Tee — 2003 Tour Bootleg Style — $24.0 on depop\n\n  Outfit:   **Look 1: 90s Streetwear Grunge**\nPair the graphic tee with your **baggy straight-leg jeans** and **black combat boots**, layered underneath your **vintage black denim jacket**. Complete the look with your **black crossbody bag** for an effortlessly cool, worn-in aesthetic that leans into the tee's vintage roots.\n\n**Look 2: High-Low Contrast**\nTuck the boxy tee into your **wide-leg khaki trousers**, cinched with the **brown leather belt**, and style it with your **chunky white sneakers**. Throw on your **black cropped zip hoodie** over your shoulders or wear it open to add a sporty edge to the polished earth tones.\n\n  Fit card: I am still not over scoring this buttery soft, perfectly faded 2003 tour bootleg graphic tee for just $24 on Depop! It has that ideal boxy fit and looks so sick thrown on with baggy jeans and combat boots, but it’s just as good dressed up with tailored trousers. Nothing beats finding a piece with this much built-in character.\n\n2 model calls this session, 756 prompt + 223 output tokens\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:19:50+00:00",
+            "query": "vintage graphic tee under $30",
+            "wardrobe_items": 10,
+            "outcome": "complete",
+            "selected_item": "lst_006",
+            "has_outfit": true,
+            "has_fit_card": true,
+            "error": null,
+            "warning": null,
+            "duration_s": 4.196,
+            "step_s": {
+              "search": 1.541,
+              "outfit": 1.788,
+              "fit_card": 0.866
+            },
+            "model_calls": 2,
+            "prompt_tokens": 756,
+            "output_tokens": 223,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "vintage graphic tee under $30",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 10 items: Graphic Tee — 2003 Tour Bootleg Style, Vintage Band Tee — Faded Grey, Vintage Graphic Hoodie — Faded Black … +7 more\n[2] suggest_outfit\n      in:  dict with keys: item, wardrobe_items\n      out: **Look 1: 90s Grunge Streetwear** Pair the graphic tee with your baggy dark-wash straight-leg jeans and black …\n[3] create_fit_card\n      in:  dict with keys: item, price\n      out: Just scored the ultimate 2003 tour bootleg tee on Depop for only $24, and I’m literally obsessed with how perf…\n\n  Found:    Graphic Tee — 2003 Tour Bootleg Style — $24.0 on depop\n\n  Outfit:   **Look 1: 90s Grunge Streetwear**\nPair the graphic tee with your baggy dark-wash straight-leg jeans and black combat boots for an effortless, authentic vintage feel. Layer your slightly cropped black denim jacket on top to play with proportions, and finish the look with your black crossbody bag.\n\n**Look 2: Elevated Casual Contrast**\nTuck the slightly boxy tee into your wide-leg khaki trousers, accented by the brown leather belt to anchor the earth tones against the faded black cotton. Complete the outfit with your chunky white sneakers for a fresh, street-style contrast that balances the grunge aesthetic.\n\n  Fit card: Just scored the ultimate 2003 tour bootleg tee on Depop for only $24, and I’m literally obsessed with how perfectly worn-in and boxy it is! I'm totally styling it for 90s grunge streetwear with baggy dark-wash denim and combat boots, but it'll look just as fire tucked into wide-leg khakis with chunky sneaks. Run, don't walk to my shop—wait, finding gems like this is the exact reason I live on Depop!\n\n2 model calls this session, 739 prompt + 238 output tokens\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:19:55+00:00",
+            "query": "vintage graphic tee under $30",
+            "wardrobe_items": 10,
+            "outcome": "complete",
+            "selected_item": "lst_006",
+            "has_outfit": true,
+            "has_fit_card": true,
+            "error": null,
+            "warning": null,
+            "duration_s": 4.399,
+            "step_s": {
+              "search": 1.658,
+              "outfit": 1.901,
+              "fit_card": 0.839
+            },
+            "model_calls": 2,
+            "prompt_tokens": 739,
+            "output_tokens": 238,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "vintage graphic tee under $30",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 10 items: Graphic Tee — 2003 Tour Bootleg Style, Vintage Band Tee — Faded Grey, Vintage Graphic Hoodie — Faded Black … +7 more\n[2] suggest_outfit\n      in:  dict with keys: item, wardrobe_items\n      out: **Outfit 1: 90s Streetwear Grunge** Pair the graphic tee with your baggy dark wash jeans and chunky white snea…\n[3] create_fit_card\n      in:  dict with keys: item, price\n      out: Still pinching myself over scoring this ultimate 2003 tour bootleg graphic tee on Depop for just $24! It has t…\n\n  Found:    Graphic Tee — 2003 Tour Bootleg Style — $24.0 on depop\n\n  Outfit:   **Outfit 1: 90s Streetwear Grunge**\nPair the graphic tee with your baggy dark wash jeans and chunky white sneakers for an effortless, throwback skater look. Throw your black cropped zip hoodie on top unzipped to add dimension and highlight the boxy cut of the tee. \n\n**Outfit 2: Edgy Contrast**\nTuck the tee into your wide-leg khaki trousers and cinch the waist with your brown leather belt to balance the proportions, then finish the look with your black combat boots for a cool high-low mix of grunge and minimal earth tones.\n\n  Fit card: Still pinching myself over scoring this ultimate 2003 tour bootleg graphic tee on Depop for just $24! It has that insanely soft, worn-in feel and boxy cut that looks unreal styled grungy with baggy denim and chunky sneakers, or dressed up high-low with khaki trousers and combat boots. Run, don't walk, because a gem like this is way too good to gatekeep.\n\n2 model calls this session, 729 prompt + 204 output tokens\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:20:00+00:00",
+            "query": "vintage graphic tee under $30",
+            "wardrobe_items": 10,
+            "outcome": "complete",
+            "selected_item": "lst_006",
+            "has_outfit": true,
+            "has_fit_card": true,
+            "error": null,
+            "warning": null,
+            "duration_s": 4.454,
+            "step_s": {
+              "search": 1.619,
+              "outfit": 1.772,
+              "fit_card": 1.062
+            },
+            "model_calls": 2,
+            "prompt_tokens": 729,
+            "output_tokens": 204,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "vintage graphic tee under $30",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 10 items: Graphic Tee — 2003 Tour Bootleg Style, Vintage Band Tee — Faded Grey, Vintage Graphic Hoodie — Faded Black … +7 more\n[2] suggest_outfit\n      in:  dict with keys: item, wardrobe_items\n      out: **The 90s Streetwear Look:**  Pair the graphic tee with your **baggy straight-leg dark wash jeans** and anchor…\n[3] create_fit_card\n      in:  dict with keys: item, price\n      out: Just scored this buttery-soft 2003 tour bootleg tee for only $24 on Depop, and the faded graphic is literal pe…\n\n  Found:    Graphic Tee — 2003 Tour Bootleg Style — $24.0 on depop\n\n  Outfit:   **The 90s Streetwear Look:** \nPair the graphic tee with your **baggy straight-leg dark wash jeans** and anchor the outfit with your **chunky white sneakers**. Layer your **vintage black denim jacket** on top and complete the fit with the **black crossbody bag** for an effortless, grunge-inspired everyday vibe.\n\n**The Edge-Contrast Look:** \nTuck the tee into your **wide-leg khaki trousers** using the **brown leather belt** to define the waist, and pair them with your **black combat boots**. Throw your **black cropped zip hoodie** over your shoulders or wear it unzipped to play with proportions and textures.\n\n  Fit card: Just scored this buttery-soft 2003 tour bootleg tee for only $24 on Depop, and the faded graphic is literal perfection! I’m totally styling it for a grunge-inspired streetwear look with baggy dark denim and chunky sneakers, or going the edge-contrast route tucked into wide-leg trousers with combat boots. Honestly, finding a piece with this much character for less than the price of a takeout dinner is a total win.\n\n2 model calls this session, 749 prompt + 232 output tokens\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:20:05+00:00",
+            "query": "vintage graphic tee under $30",
+            "wardrobe_items": 10,
+            "outcome": "complete",
+            "selected_item": "lst_006",
+            "has_outfit": true,
+            "has_fit_card": true,
+            "error": null,
+            "warning": null,
+            "duration_s": 4.564,
+            "step_s": {
+              "search": 1.709,
+              "outfit": 1.864,
+              "fit_card": 0.99
+            },
+            "model_calls": 2,
+            "prompt_tokens": 749,
+            "output_tokens": 232,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        }
+      ],
+      "empties": [
+        {
+          "query": "designer ballgown size XXS under $5",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: [] (empty)\n      →    branch: empty search, stopping early\n\n  No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').\n\n0 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:20:07+00:00",
+            "query": "designer ballgown size XXS under $5",
+            "wardrobe_items": 10,
+            "outcome": "stopped_early",
+            "selected_item": null,
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": "No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').",
+            "warning": null,
+            "duration_s": 1.869,
+            "step_s": {
+              "search": 1.868
+            },
+            "model_calls": 0,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "designer ballgown size XXS under $5",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: [] (empty)\n      →    branch: empty search, stopping early\n\n  No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').\n\n0 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:20:09+00:00",
+            "query": "designer ballgown size XXS under $5",
+            "wardrobe_items": 10,
+            "outcome": "stopped_early",
+            "selected_item": null,
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": "No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').",
+            "warning": null,
+            "duration_s": 1.754,
+            "step_s": {
+              "search": 1.754
+            },
+            "model_calls": 0,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "designer ballgown size XXS under $5",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: [] (empty)\n      →    branch: empty search, stopping early\n\n  No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').\n\n0 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:20:11+00:00",
+            "query": "designer ballgown size XXS under $5",
+            "wardrobe_items": 10,
+            "outcome": "stopped_early",
+            "selected_item": null,
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": "No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').",
+            "warning": null,
+            "duration_s": 1.641,
+            "step_s": {
+              "search": 1.64
+            },
+            "model_calls": 0,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "designer ballgown size XXS under $5",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: [] (empty)\n      →    branch: empty search, stopping early\n\n  No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').\n\n0 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:20:13+00:00",
+            "query": "designer ballgown size XXS under $5",
+            "wardrobe_items": 10,
+            "outcome": "stopped_early",
+            "selected_item": null,
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": "No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').",
+            "warning": null,
+            "duration_s": 1.707,
+            "step_s": {
+              "search": 1.706
+            },
+            "model_calls": 0,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "designer ballgown size XXS under $5",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: [] (empty)\n      →    branch: empty search, stopping early\n\n  No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').\n\n0 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:20:15+00:00",
+            "query": "designer ballgown size XXS under $5",
+            "wardrobe_items": 10,
+            "outcome": "stopped_early",
+            "selected_item": null,
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": "No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').",
+            "warning": null,
+            "duration_s": 2.092,
+            "step_s": {
+              "search": 2.092
+            },
+            "model_calls": 0,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        }
+      ]
+    }
+  },
+  {
+    "trial": 3,
+    "scores": {
+      "1": [
+        3,
+        3
+      ],
+      "2": [
+        15,
+        15
+      ],
+      "3": [
+        5,
+        5
+      ],
+      "4": [
+        5,
+        5
+      ],
+      "5": [
+        5,
+        5
+      ]
+    },
+    "durations": [
+      4.541,
+      4.561,
+      4.951,
+      4.844,
+      4.34
+    ],
+    "runs": {
+      "failures": [
+        {
+          "query": "denim jacket under $50",
+          "broken_model": true,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 7 items: Denim Jacket — Light Wash, Cropped, High-Waisted Denim Shorts — Cutoff, Denim Vest — Medium Wash, Studded … +4 more\n[2] suggest_outfit\n      in:  dict with keys: item\n      →    model failed, returning the listing only\n\n  Found:    Denim Jacket — Light Wash, Cropped — $42.0 on poshmark\n\n  Outfit:   None\n\n  Fit card: None\n\n  Note:     Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.\n\n1 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:21:18+00:00",
+            "query": "denim jacket under $50",
+            "wardrobe_items": 10,
+            "outcome": "partial",
+            "selected_item": "lst_007",
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": null,
+            "warning": "Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.",
+            "duration_s": 2.713,
+            "step_s": {
+              "search": 1.639,
+              "outfit": 1.074
+            },
+            "model_calls": 1,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "no-such-model",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "denim jacket under $50",
+          "broken_model": true,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 7 items: Denim Jacket — Light Wash, Cropped, High-Waisted Denim Shorts — Cutoff, Denim Vest — Medium Wash, Studded … +4 more\n[2] suggest_outfit\n      in:  dict with keys: item\n      →    model failed, returning the listing only\n\n  Found:    Denim Jacket — Light Wash, Cropped — $42.0 on poshmark\n\n  Outfit:   None\n\n  Fit card: None\n\n  Note:     Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.\n\n1 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:21:21+00:00",
+            "query": "denim jacket under $50",
+            "wardrobe_items": 10,
+            "outcome": "partial",
+            "selected_item": "lst_007",
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": null,
+            "warning": "Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.",
+            "duration_s": 2.936,
+            "step_s": {
+              "search": 1.818,
+              "outfit": 1.117
+            },
+            "model_calls": 1,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "no-such-model",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "denim jacket under $50",
+          "broken_model": true,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 7 items: Denim Jacket — Light Wash, Cropped, High-Waisted Denim Shorts — Cutoff, Denim Vest — Medium Wash, Studded … +4 more\n[2] suggest_outfit\n      in:  dict with keys: item\n      →    model failed, returning the listing only\n\n  Found:    Denim Jacket — Light Wash, Cropped — $42.0 on poshmark\n\n  Outfit:   None\n\n  Fit card: None\n\n  Note:     Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.\n\n1 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:21:25+00:00",
+            "query": "denim jacket under $50",
+            "wardrobe_items": 10,
+            "outcome": "partial",
+            "selected_item": "lst_007",
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": null,
+            "warning": "Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.",
+            "duration_s": 3.008,
+            "step_s": {
+              "search": 1.815,
+              "outfit": 1.192
+            },
+            "model_calls": 1,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "no-such-model",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "denim jacket under $50",
+          "broken_model": true,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 7 items: Denim Jacket — Light Wash, Cropped, High-Waisted Denim Shorts — Cutoff, Denim Vest — Medium Wash, Studded … +4 more\n[2] suggest_outfit\n      in:  dict with keys: item\n      →    model failed, returning the listing only\n\n  Found:    Denim Jacket — Light Wash, Cropped — $42.0 on poshmark\n\n  Outfit:   None\n\n  Fit card: None\n\n  Note:     Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.\n\n1 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:21:28+00:00",
+            "query": "denim jacket under $50",
+            "wardrobe_items": 10,
+            "outcome": "partial",
+            "selected_item": "lst_007",
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": null,
+            "warning": "Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.",
+            "duration_s": 2.784,
+            "step_s": {
+              "search": 1.758,
+              "outfit": 1.025
+            },
+            "model_calls": 1,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "no-such-model",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "denim jacket under $50",
+          "broken_model": true,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 7 items: Denim Jacket — Light Wash, Cropped, High-Waisted Denim Shorts — Cutoff, Denim Vest — Medium Wash, Studded … +4 more\n[2] suggest_outfit\n      in:  dict with keys: item\n      →    model failed, returning the listing only\n\n  Found:    Denim Jacket — Light Wash, Cropped — $42.0 on poshmark\n\n  Outfit:   None\n\n  Fit card: None\n\n  Note:     Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.\n\n1 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:21:31+00:00",
+            "query": "denim jacket under $50",
+            "wardrobe_items": 10,
+            "outcome": "partial",
+            "selected_item": "lst_007",
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": null,
+            "warning": "Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.",
+            "duration_s": 2.768,
+            "step_s": {
+              "search": 1.769,
+              "outfit": 0.998
+            },
+            "model_calls": 1,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "no-such-model",
+            "timeout_s": 20.0
+          }
+        }
+      ],
+      "normals": [
+        {
+          "query": "vintage graphic tee under $30",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 10 items: Graphic Tee — 2003 Tour Bootleg Style, Vintage Band Tee — Faded Grey, Vintage Graphic Hoodie — Faded Black … +7 more\n[2] suggest_outfit\n      in:  dict with keys: item, wardrobe_items\n      out: **Look 1: 90s Streetwear Grunge** Pair the graphic tee with your baggy dark-wash straight-leg jeans and chunky…\n[3] create_fit_card\n      in:  dict with keys: item, price\n      out: Found the ultimate 2003 tour bootleg graphic tee on Depop today for just $24, and I’m literally obsessed with …\n\n  Found:    Graphic Tee — 2003 Tour Bootleg Style — $24.0 on depop\n\n  Outfit:   **Look 1: 90s Streetwear Grunge**\nPair the graphic tee with your baggy dark-wash straight-leg jeans and chunky white sneakers for an effortless off-duty look. Throw your vintage black denim jacket over top and sling the black crossbody bag across your chest to tie the streetwear aesthetic together. \n\n**Look 2: Edgy Contrast**\nTuck the slightly boxy tee into your wide-leg khaki trousers, cinched with the brown leather belt for a cool high-low mix of earth tones and grunge. Finish the outfit with your black combat boots and layer the black cropped zip hoodie loosely over your shoulders for extra texture.\n\n  Fit card: Found the ultimate 2003 tour bootleg graphic tee on Depop today for just $24, and I’m literally obsessed with how soft and worn-in it is! I can’t wait to style the boxy fit for total 90s grunge streetwear with baggy jeans and chunky sneakers, or dress it down with wide-leg trousers and combat boots. Run, don't walk, because finds like this never stay in my cart long!\n\n2 model calls this session, 744 prompt + 230 output tokens\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:21:36+00:00",
+            "query": "vintage graphic tee under $30",
+            "wardrobe_items": 10,
+            "outcome": "complete",
+            "selected_item": "lst_006",
+            "has_outfit": true,
+            "has_fit_card": true,
+            "error": null,
+            "warning": null,
+            "duration_s": 4.541,
+            "step_s": {
+              "search": 1.717,
+              "outfit": 1.965,
+              "fit_card": 0.858
+            },
+            "model_calls": 2,
+            "prompt_tokens": 744,
+            "output_tokens": 230,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "vintage graphic tee under $30",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 10 items: Graphic Tee — 2003 Tour Bootleg Style, Vintage Band Tee — Faded Grey, Vintage Graphic Hoodie — Faded Black … +7 more\n[2] suggest_outfit\n      in:  dict with keys: item, wardrobe_items\n      out: **Outfit 1: 90s Streetwear Grunge** Pair the graphic tee with your baggy dark wash jeans and chunky white snea…\n[3] create_fit_card\n      in:  dict with keys: item, price\n      out: I am still screaming over this perfectly faded 2003 bootleg tour tee I just scored on Depop for only $24! It h…\n\n  Found:    Graphic Tee — 2003 Tour Bootleg Style — $24.0 on depop\n\n  Outfit:   **Outfit 1: 90s Streetwear Grunge**\nPair the graphic tee with your baggy dark wash jeans and chunky white sneakers for an effortless, skate-inspired silhouette. Throw your slightly cropped vintage black denim jacket over top to play with proportion against the boxy tee, and finish the look with your black crossbody bag.\n\n**Outfit 2: Elevated Edgy Casual**\nTuck the graphic tee into your wide-leg khaki trousers, securing them with your brown leather belt to create a cool contrast between earth tones and vintage grunge. Ground the outfit with your black combat boots to lean into the edgy, worn-in aesthetic of the shirt.\n\n  Fit card: I am still screaming over this perfectly faded 2003 bootleg tour tee I just scored on Depop for only $24! It has that ultimate worn-in, boxy fit that looks unreal paired with baggy dark wash denim and chunky sneakers for pure 90s skate grunge. Such a dreamy find—run, don't walk, to my shop before I talk myself into keeping it!\n\n2 model calls this session, 743 prompt + 217 output tokens\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:21:41+00:00",
+            "query": "vintage graphic tee under $30",
+            "wardrobe_items": 10,
+            "outcome": "complete",
+            "selected_item": "lst_006",
+            "has_outfit": true,
+            "has_fit_card": true,
+            "error": null,
+            "warning": null,
+            "duration_s": 4.561,
+            "step_s": {
+              "search": 1.671,
+              "outfit": 1.928,
+              "fit_card": 0.962
+            },
+            "model_calls": 2,
+            "prompt_tokens": 743,
+            "output_tokens": 217,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "vintage graphic tee under $30",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 10 items: Graphic Tee — 2003 Tour Bootleg Style, Vintage Band Tee — Faded Grey, Vintage Graphic Hoodie — Faded Black … +7 more\n[2] suggest_outfit\n      in:  dict with keys: item, wardrobe_items\n      out: **Outfit 1: The Ultimate 90s Grunge Look** Pair the graphic tee with your **baggy dark wash straight-leg jeans…\n[3] create_fit_card\n      in:  dict with keys: item, price\n      out: I am still screaming over this 2003 tour bootleg graphic tee I just scored on Depop for only $24! The 100% cot…\n\n  Found:    Graphic Tee — 2003 Tour Bootleg Style — $24.0 on depop\n\n  Outfit:   **Outfit 1: The Ultimate 90s Grunge Look**\nPair the graphic tee with your **baggy dark wash straight-leg jeans** and anchor the look with your **black combat boots** and **vintage black denim jacket** layered on top. Finish with your **black crossbody bag** for an effortless, street-ready vibe that leans into the tee's vintage roots.\n\n**Outfit 2: High-Low Streetwear Contrast**\nTuck the boxy tee into your **wide-leg khaki trousers**—secured with the **brown leather belt** to add structure—and pair it with your **chunky white sneakers**. Throw on the **black cropped zip hoodie** over your shoulders or unzipped to create a cool contrast between the rugged tee and clean, minimal trousers.\n\n  Fit card: I am still screaming over this 2003 tour bootleg graphic tee I just scored on Depop for only $24! The 100% cotton is ridiculously soft and worn-in, giving it that ultimate boxy 90s grunge fit. I’m totally styling this with baggy denim and combat boots for an effortless street vibe, but it also looks insane tucked into wide-leg trousers. Find it live on my Depop before I change my mind and keep it!\n\n2 model calls this session, 772 prompt + 264 output tokens\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:21:47+00:00",
+            "query": "vintage graphic tee under $30",
+            "wardrobe_items": 10,
+            "outcome": "complete",
+            "selected_item": "lst_006",
+            "has_outfit": true,
+            "has_fit_card": true,
+            "error": null,
+            "warning": null,
+            "duration_s": 4.951,
+            "step_s": {
+              "search": 2.118,
+              "outfit": 1.861,
+              "fit_card": 0.97
+            },
+            "model_calls": 2,
+            "prompt_tokens": 772,
+            "output_tokens": 264,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "vintage graphic tee under $30",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 10 items: Graphic Tee — 2003 Tour Bootleg Style, Vintage Band Tee — Faded Grey, Vintage Graphic Hoodie — Faded Black … +7 more\n[2] suggest_outfit\n      in:  dict with keys: item, wardrobe_items\n      out: **Outfit 1: 90s Streetwear Grunge** Pair the graphic tee with your baggy dark-wash straight-leg jeans and chun…\n[3] create_fit_card\n      in:  dict with keys: item, price\n      out: Just scored this insanely soft 2003 tour bootleg graphic tee for only $24 on Depop, and the worn-in, boxy fit …\n\n  Found:    Graphic Tee — 2003 Tour Bootleg Style — $24.0 on depop\n\n  Outfit:   **Outfit 1: 90s Streetwear Grunge**\nPair the graphic tee with your baggy dark-wash straight-leg jeans and chunky white sneakers for an effortless off-duty look. Throw on your black cropped zip hoodie layered loosely over the top, and accessorize with your black crossbody bag to complete the downtown-cool aesthetic.\n\n**Outfit 2: Edgy Contrast Minimal**\nTuck the vintage-style tee into your wide-leg khaki trousers, accented with your brown leather belt to break up the earth tones and blacks. Ground the outfit with your black combat boots and layer on your slightly cropped vintage black denim jacket for an elevated, texture-rich spin on classic grunge.\n\n  Fit card: Just scored this insanely soft 2003 tour bootleg graphic tee for only $24 on Depop, and the worn-in, boxy fit is everything. I'm already planning to style it with baggy denim and combat boots for that effortless downtown-grunge look. Seriously obsessed with how lived-in this piece feels!\n\n2 model calls this session, 751 prompt + 210 output tokens\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:21:52+00:00",
+            "query": "vintage graphic tee under $30",
+            "wardrobe_items": 10,
+            "outcome": "complete",
+            "selected_item": "lst_006",
+            "has_outfit": true,
+            "has_fit_card": true,
+            "error": null,
+            "warning": null,
+            "duration_s": 4.844,
+            "step_s": {
+              "search": 1.996,
+              "outfit": 2.153,
+              "fit_card": 0.693
+            },
+            "model_calls": 2,
+            "prompt_tokens": 751,
+            "output_tokens": 210,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "vintage graphic tee under $30",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: 10 items: Graphic Tee — 2003 Tour Bootleg Style, Vintage Band Tee — Faded Grey, Vintage Graphic Hoodie — Faded Black … +7 more\n[2] suggest_outfit\n      in:  dict with keys: item, wardrobe_items\n      out: **Outfit 1: 90s Grunge Streetwear** Pair the graphic tee with your baggy dark-wash straight-leg jeans and blac…\n[3] create_fit_card\n      in:  dict with keys: item, price\n      out: I am still obsessing over this insanely soft, perfectly faded 2003 tour bootleg tee I just scored on Depop for…\n\n  Found:    Graphic Tee — 2003 Tour Bootleg Style — $24.0 on depop\n\n  Outfit:   **Outfit 1: 90s Grunge Streetwear**\nPair the graphic tee with your baggy dark-wash straight-leg jeans and black combat boots for an effortless, authentic-feeling vintage look. Layer the slightly cropped black denim jacket on top and finish with the black crossbody bag to lean fully into the streetwear and grunge aesthetic. \n\n**Outfit 2: High-Low Contrast**\nCreate a balanced silhouette by tucking the boxy tee into your wide-leg khaki trousers, secured with the brown leather belt to add a touch of warmth and structure. Style it with your chunky white sneakers and the black crossbody bag for a casual look that plays with textures and earthy tones.\n\n  Fit card: I am still obsessing over this insanely soft, perfectly faded 2003 tour bootleg tee I just scored on Depop for only $24! It has that ultimate worn-in vintage feel with the dreamiest boxy fit. I’m totally styling it for a 90s grunge look with baggy dark denim and combat boots, or dressing it down with wide-leg trousers for that effortless high-low vibe. 🖤✨\n\n2 model calls this session, 749 prompt + 231 output tokens\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:21:57+00:00",
+            "query": "vintage graphic tee under $30",
+            "wardrobe_items": 10,
+            "outcome": "complete",
+            "selected_item": "lst_006",
+            "has_outfit": true,
+            "has_fit_card": true,
+            "error": null,
+            "warning": null,
+            "duration_s": 4.34,
+            "step_s": {
+              "search": 1.772,
+              "outfit": 1.74,
+              "fit_card": 0.826
+            },
+            "model_calls": 2,
+            "prompt_tokens": 749,
+            "output_tokens": 231,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        }
+      ],
+      "empties": [
+        {
+          "query": "designer ballgown size XXS under $5",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: [] (empty)\n      →    branch: empty search, stopping early\n\n  No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').\n\n0 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:21:59+00:00",
+            "query": "designer ballgown size XXS under $5",
+            "wardrobe_items": 10,
+            "outcome": "stopped_early",
+            "selected_item": null,
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": "No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').",
+            "warning": null,
+            "duration_s": 1.791,
+            "step_s": {
+              "search": 1.79
+            },
+            "model_calls": 0,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "designer ballgown size XXS under $5",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: [] (empty)\n      →    branch: empty search, stopping early\n\n  No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').\n\n0 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:22:01+00:00",
+            "query": "designer ballgown size XXS under $5",
+            "wardrobe_items": 10,
+            "outcome": "stopped_early",
+            "selected_item": null,
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": "No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').",
+            "warning": null,
+            "duration_s": 1.774,
+            "step_s": {
+              "search": 1.774
+            },
+            "model_calls": 0,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "designer ballgown size XXS under $5",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: [] (empty)\n      →    branch: empty search, stopping early\n\n  No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').\n\n0 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:22:03+00:00",
+            "query": "designer ballgown size XXS under $5",
+            "wardrobe_items": 10,
+            "outcome": "stopped_early",
+            "selected_item": null,
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": "No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').",
+            "warning": null,
+            "duration_s": 1.765,
+            "step_s": {
+              "search": 1.765
+            },
+            "model_calls": 0,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "designer ballgown size XXS under $5",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: [] (empty)\n      →    branch: empty search, stopping early\n\n  No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').\n\n0 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:22:05+00:00",
+            "query": "designer ballgown size XXS under $5",
+            "wardrobe_items": 10,
+            "outcome": "stopped_early",
+            "selected_item": null,
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": "No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').",
+            "warning": null,
+            "duration_s": 2.156,
+            "step_s": {
+              "search": 2.155
+            },
+            "model_calls": 0,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        },
+        {
+          "query": "designer ballgown size XXS under $5",
+          "broken_model": false,
+          "stdout": "[1] search_listings (via MCP)\n      in:  dict with keys: description, size, max_price\n      out: [] (empty)\n      →    branch: empty search, stopping early\n\n  No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').\n\n0 model calls this session\n",
+          "exit_code": 0,
+          "new_log_lines": 1,
+          "record": {
+            "timestamp": "2026-11-09T04:22:07+00:00",
+            "query": "designer ballgown size XXS under $5",
+            "wardrobe_items": 10,
+            "outcome": "stopped_early",
+            "selected_item": null,
+            "has_outfit": false,
+            "has_fit_card": false,
+            "error": "No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').",
+            "warning": null,
+            "duration_s": 1.961,
+            "step_s": {
+              "search": 1.958
+            },
+            "model_calls": 0,
+            "prompt_tokens": 0,
+            "output_tokens": 0,
+            "model": "gemini-3.5-flash-lite",
+            "timeout_s": 20.0
+          }
+        }
+      ]
+    }
+  }
+]
