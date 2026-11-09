@@ -1,5 +1,39 @@
 # Running FitFindr
 
+## Capstone run path (Unit 9) — Path B, local with logs
+
+**Start command** (from the repo folder, after setup below):
+
+```powershell
+python app.py ask 'vintage graphic tee under $30'
+```
+
+Every run adds one JSON line to `logs/runs.jsonl`. Read the last 10 with:
+
+```powershell
+python run_log.py
+```
+
+**What the environment needs**
+
+| Thing | Value |
+|---|---|
+| Python | 3.11–3.13 supported (`requirements.txt`). I ran the capstone on 3.10.10; it worked, but `test.py` flags it. |
+| Packages | `pip install -r requirements.txt` — pinned with upper and lower bounds: `python-dotenv>=1.0,<1.2`, `google-genai>=1.0,<2.0`, `mcp>=1.0,<2.0`, `flask>=3.0,<4.0`, `gunicorn>=21.2,<24.0` |
+| API key | `GEMINI_API_KEY` in a `.env` file (copy `.env.example`). Never commit `.env`. |
+| Model files | None. FitFindr calls the Gemini API (`gemini-3.5-flash-lite`); nothing is downloaded. |
+| Network | Needed for the model calls. |
+
+**Settings you can change for testing** (environment variables):
+
+| Variable | What it does |
+|---|---|
+| `AI201_CACHE=0` | Turns off the response cache, so every run makes real model calls. Use this for any measured run. |
+| `AI201_MODEL_TIMEOUT=20` | Seconds before a model call is abandoned. Minimum 10 (Gemini rejects less). |
+| `AI201_MODEL=no-such-model` | Forces a model failure, to test the fallback. |
+
+---
+
 Everything about how the starter works and how to use it.
 
 ---

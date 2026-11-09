@@ -56,6 +56,106 @@ work.
 **Stretch I'm declaring before I build:** a latency breakdown — how long each
 step of one run takes (search, outfit, fit card), measured from the logs.
 
+## Running It
+
+**Path B — local with logs.** No hosting. Everything a reader needs is in
+[RUNNING.md](RUNNING.md): the start command, the Python version, the pinned
+packages, and the settings used to test failures. There are no model files;
+the model is called over the Gemini API.
+
+```powershell
+python app.py ask 'vintage graphic tee under $30'
+```
+
+The committed run record is `logs/runs.jsonl`.
+
+## Instrumentation
+
+Every run writes one JSON line to `logs/runs.jsonl`, even if it fails or
+crashes. The code is in `run_log.py::write_record`, called from
+`agent.py::run_agent`.
+
+| Field | What it holds |
+|---|---|
+| `timestamp` | When the run finished (UTC) |
+| `query`, `wardrobe_items` | What came in |
+| `outcome` | `complete`, `partial` (a model step failed but the listing was kept), `stopped_early` (no listings), or `crashed` |
+| `selected_item`, `has_outfit`, `has_fit_card` | What came out |
+| `error`, `warning` | Why it stopped early, or which model step failed |
+| `duration_s` | Whole run, in seconds |
+| `step_s` | Seconds per step: `search`, `outfit`, `fit_card` |
+| `model_calls`, `prompt_tokens`, `output_tokens` | What the run cost |
+| `model`, `timeout_s` | Settings in use |
+
+**12 entries from `logs/runs.jsonl`** (10 normal runs with the cache off, then
+an impossible query, then a forced model failure with `AI201_MODEL=no-such-model`):
+
+```
+{"timestamp": "2026-11-09T03:11:58+00:00", "query": "vintage graphic tee under $30", "wardrobe_items": 10, "outcome": "complete", "selected_item": "lst_006", "has_outfit": true, "has_fit_card": true, "error": null, "warning": null, "duration_s": 5.34, "step_s": {"search": 2.314, "outfit": 2.186, "fit_card": 0.838}, "model_calls": 2, "prompt_tokens": 724, "output_tokens": 206, "model": "gemini-3.5-flash-lite", "timeout_s": 20.0}
+{"timestamp": "2026-11-09T03:12:04+00:00", "query": "vintage graphic tee under $30", "wardrobe_items": 10, "outcome": "complete", "selected_item": "lst_006", "has_outfit": true, "has_fit_card": true, "error": null, "warning": null, "duration_s": 5.351, "step_s": {"search": 2.259, "outfit": 2.253, "fit_card": 0.838}, "model_calls": 2, "prompt_tokens": 741, "output_tokens": 210, "model": "gemini-3.5-flash-lite", "timeout_s": 20.0}
+{"timestamp": "2026-11-09T03:12:11+00:00", "query": "vintage graphic tee under $30", "wardrobe_items": 10, "outcome": "complete", "selected_item": "lst_006", "has_outfit": true, "has_fit_card": true, "error": null, "warning": null, "duration_s": 6.439, "step_s": {"search": 2.801, "outfit": 2.648, "fit_card": 0.989}, "model_calls": 2, "prompt_tokens": 742, "output_tokens": 220, "model": "gemini-3.5-flash-lite", "timeout_s": 20.0}
+{"timestamp": "2026-11-09T03:12:17+00:00", "query": "vintage graphic tee under $30", "wardrobe_items": 10, "outcome": "complete", "selected_item": "lst_006", "has_outfit": true, "has_fit_card": true, "error": null, "warning": null, "duration_s": 5.623, "step_s": {"search": 2.501, "outfit": 2.362, "fit_card": 0.759}, "model_calls": 2, "prompt_tokens": 735, "output_tokens": 203, "model": "gemini-3.5-flash-lite", "timeout_s": 20.0}
+{"timestamp": "2026-11-09T03:12:23+00:00", "query": "vintage graphic tee under $30", "wardrobe_items": 10, "outcome": "complete", "selected_item": "lst_006", "has_outfit": true, "has_fit_card": true, "error": null, "warning": null, "duration_s": 5.828, "step_s": {"search": 2.418, "outfit": 2.468, "fit_card": 0.94}, "model_calls": 2, "prompt_tokens": 732, "output_tokens": 228, "model": "gemini-3.5-flash-lite", "timeout_s": 20.0}
+{"timestamp": "2026-11-09T03:12:29+00:00", "query": "vintage graphic tee under $30", "wardrobe_items": 10, "outcome": "complete", "selected_item": "lst_006", "has_outfit": true, "has_fit_card": true, "error": null, "warning": null, "duration_s": 5.488, "step_s": {"search": 2.388, "outfit": 2.158, "fit_card": 0.94}, "model_calls": 2, "prompt_tokens": 739, "output_tokens": 235, "model": "gemini-3.5-flash-lite", "timeout_s": 20.0}
+{"timestamp": "2026-11-09T03:12:36+00:00", "query": "vintage graphic tee under $30", "wardrobe_items": 10, "outcome": "complete", "selected_item": "lst_006", "has_outfit": true, "has_fit_card": true, "error": null, "warning": null, "duration_s": 5.967, "step_s": {"search": 2.403, "outfit": 2.51, "fit_card": 1.053}, "model_calls": 2, "prompt_tokens": 742, "output_tokens": 220, "model": "gemini-3.5-flash-lite", "timeout_s": 20.0}
+{"timestamp": "2026-11-09T03:12:42+00:00", "query": "vintage graphic tee under $30", "wardrobe_items": 10, "outcome": "complete", "selected_item": "lst_006", "has_outfit": true, "has_fit_card": true, "error": null, "warning": null, "duration_s": 5.397, "step_s": {"search": 2.28, "outfit": 2.233, "fit_card": 0.883}, "model_calls": 2, "prompt_tokens": 746, "output_tokens": 222, "model": "gemini-3.5-flash-lite", "timeout_s": 20.0}
+{"timestamp": "2026-11-09T03:12:48+00:00", "query": "vintage graphic tee under $30", "wardrobe_items": 10, "outcome": "complete", "selected_item": "lst_006", "has_outfit": true, "has_fit_card": true, "error": null, "warning": null, "duration_s": 5.803, "step_s": {"search": 2.777, "outfit": 2.181, "fit_card": 0.844}, "model_calls": 2, "prompt_tokens": 741, "output_tokens": 218, "model": "gemini-3.5-flash-lite", "timeout_s": 20.0}
+{"timestamp": "2026-11-09T03:12:56+00:00", "query": "vintage graphic tee under $30", "wardrobe_items": 10, "outcome": "complete", "selected_item": "lst_006", "has_outfit": true, "has_fit_card": true, "error": null, "warning": null, "duration_s": 7.16, "step_s": {"search": 3.17, "outfit": 3.023, "fit_card": 0.966}, "model_calls": 2, "prompt_tokens": 735, "output_tokens": 212, "model": "gemini-3.5-flash-lite", "timeout_s": 20.0}
+{"timestamp": "2026-11-09T03:14:09+00:00", "query": "designer ballgown size XXS under $5", "wardrobe_items": 10, "outcome": "stopped_early", "selected_item": null, "has_outfit": false, "has_fit_card": false, "error": "No matching listings found. Try raising your price limit above $5.0 or searching for sizes other than 'XXS' or broadening your search terms (tried 'designer ballgown').", "warning": null, "duration_s": 2.387, "step_s": {"search": 2.386}, "model_calls": 0, "prompt_tokens": 0, "output_tokens": 0, "model": "gemini-3.5-flash-lite", "timeout_s": 20.0}
+{"timestamp": "2026-11-09T03:14:12+00:00", "query": "denim jacket under $50", "wardrobe_items": 10, "outcome": "partial", "selected_item": "lst_007", "has_outfit": false, "has_fit_card": false, "error": null, "warning": "Couldn't suggest an outfit: The model name 'no-such-model' did not resolve. If you changed AI201_MODEL in your .env, put it back. Otherwise post in the help channel — this is not something you caused.", "duration_s": 3.45, "step_s": {"search": 2.161, "outfit": 1.287}, "model_calls": 1, "prompt_tokens": 0, "output_tokens": 0, "model": "no-such-model", "timeout_s": 20.0}
+```
+
+## What It Costs
+
+**Measured per-run cost: about \$0.00076 (738 prompt + 217 output tokens, 2 model calls).**
+
+How I measured it: I ran `python app.py ask 'vintage graphic tee under $30'`
+10 times with the cache off (`AI201_CACHE=0`). Each run logged the token
+counts Gemini reported for its two calls. I averaged the 10 records (the first
+10 entries above).
+
+| | Average per run |
+|---|---|
+| Prompt tokens | 737.7 |
+| Output tokens | 217.4 |
+| Wall-clock time | 5.84 s |
+
+Converting tokens to dollars at the paid price for `gemini-3.5-flash-lite`
+(\$0.30 per 1M input tokens, \$2.50 per 1M output tokens):
+
+```
+input:  737.7 × $0.30 / 1,000,000 = $0.000221
+output: 217.4 × $2.50 / 1,000,000 = $0.000544
+one run                           = $0.000765
+```
+
+**A hundred people a day, one run each:**
+
+```
+100 × $0.000765 = $0.0765 per day   (about 8 cents)
+$0.0765 × 30    = $2.30 per month
+```
+
+On the free tier I'm using, the real limit isn't money. It's 15 requests a
+minute (`config.REQUESTS_PER_MINUTE`). At 2 calls per run, that's about 7 runs
+a minute.
+
+## Latency Breakdown (stretch)
+
+Measured from `step_s` across the same 10 runs:
+
+| Step | Average | Fastest | Slowest |
+|---|---|---|---|
+| `search` (via MCP) | 2.53 s | 2.26 s | 3.17 s |
+| `suggest_outfit` (model) | 2.40 s | 2.16 s | 3.02 s |
+| `create_fit_card` (model) | 0.91 s | 0.76 s | 1.05 s |
+
+**Search is the slowest step, which surprised me.** Searching 40 listings
+should be instant. The time is almost all spent starting the MCP server: each
+run launches `mcp_server.py` as a new process before it can call
+`search_listings`. The outfit call is close behind; the fit card is fast
+because its output is short.
+
 ---
 
 <!-- ─────────────────────────────────────────────────────────────────────────
