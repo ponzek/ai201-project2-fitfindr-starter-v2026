@@ -80,3 +80,4 @@ def read_records(last: int = 10) -> list[dict]:
 if __name__ == "__main__":
     for record in read_records():
         print(json.dumps(record, ensure_ascii=False))
+

@@ -150,11 +150,12 @@ Measured from `step_s` across the same 10 runs:
 | `suggest_outfit` (model) | 2.40 s | 2.16 s | 3.02 s |
 | `create_fit_card` (model) | 0.91 s | 0.76 s | 1.05 s |
 
-**Search is the slowest step, which surprised me.** Searching 40 listings
-should be instant. The time is almost all spent starting the MCP server: each
-run launches `mcp_server.py` as a new process before it can call
-`search_listings`. The outfit call is close behind; the fit card is fast
-because its output is short.
+**Search is the slowest step, which surprised me.** Calling
+`tools.py::search_listings` directly takes 0.0008 s (I timed it once on its
+own). The other ~2.5 s is MCP overhead: `mcp_client.py::call_tool` launches
+`mcp_server.py` as a brand-new process on every call (`stdio_client`) before
+it can search. The outfit call is close behind; the fit card is fast because
+its output is short.
 
 ---
 
