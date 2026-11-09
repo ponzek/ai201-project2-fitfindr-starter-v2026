@@ -135,9 +135,9 @@ def suggest_outfit(new_item: dict, wardrobe: dict) -> str:
             f"- Style Tags: {', '.join(new_item.get('style_tags', []))}\n"
             f"- Colors: {', '.join(new_item.get('colors', []))}\n"
             f"- Description: {new_item.get('description')}\n\n"
-            "The user's closet is currently empty. Provide general styling advice and suggest 1-2 versatile outfit "
-            "combinations using common wardrobe staples that pair well with this piece. Do not reference non-existent "
-            "item IDs or claim the user already owns specific items. Keep your response concise (2 to 4 sentences)."
+            "The user's closet is currently empty. Provide general styling advice and suggest ONE versatile outfit "
+            "combination using common wardrobe staples that pair well with this piece. Do not reference non-existent "
+            "item IDs or claim the user already owns specific items. Keep your response to 2 or 3 sentences, with no headings."
         )
     else:
         wardrobe_lines = []
@@ -160,12 +160,15 @@ def suggest_outfit(new_item: dict, wardrobe: dict) -> str:
             f"- Description: {new_item.get('description')}\n\n"
             "The user already owns these items in their wardrobe:\n"
             f"{wardrobe_text}\n\n"
-            "Suggest 1 or 2 specific outfit combinations pairing this new item with pieces they already own. "
-            "Explicitly name the pieces from their wardrobe that make the look work. Keep it concise and direct (2 to 4 sentences)."
+            "Suggest ONE specific outfit combination pairing this new item with pieces they already own. "
+            "Explicitly name the pieces from their wardrobe that make the look work. Keep it to 2 or 3 sentences, with no headings."
         )
 
+    # Capstone improvement: one look instead of two, and a ceiling on length.
+    # The outfit call was the slowest model step, and its time grows with how
+    # much it writes. 150 tokens fits 3 sentences with room to spare.
     system_inst = "You are a fashion stylist providing outfit pairing advice for secondhand fashion finds."
-    response = generate(prompt, system=system_inst)
+    response = generate(prompt, system=system_inst, max_output_tokens=150)
     return response.strip()
 
 

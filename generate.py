@@ -267,6 +267,7 @@ def generate(
     system: str | None = None,
     cache: bool = True,
     temperature: float | None = None,
+    max_output_tokens: int | None = None,
 ) -> str:
     """
     Send a prompt and get text back.
@@ -316,6 +317,9 @@ def generate(
             }
             if system:
                 call_config["system_instruction"] = system
+            # Capstone improvement: an optional ceiling on reply length.
+            if max_output_tokens:
+                call_config["max_output_tokens"] = max_output_tokens
             kwargs = {
                 "model": config.MODEL,
                 "contents": prompt,
