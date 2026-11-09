@@ -318,6 +318,103 @@ Unit 3 Tool Inventory still says "1–2 outfit combinations". Output tokens fell
 Outfit:   Channel effortless 90s grunge by pairing the vintage graphic tee with your baggy dark wash jeans and black combat boots for that classic slouchy silhouette. Throw your slightly cropped vintage black denim jacket over the top and accessorize with your black crossbody bag to complete the ultimate streetwear-ready look.
 ```
 
+## What's Still Broken
+
+All five criteria were MET, but they only force one kind of failure: a bad model
+name on the first model call. Gaps 1 and 2 are real bugs. I confirmed them, and
+the fit-card path in gap 4, with a throwaway script that swapped in a fake model
+client and logged outside the repo. Those fake runs are not in `logs/runs.jsonl`.
+
+1. **Running out of rate-limit retries still loses the listing.**
+   - *What's broken:* after 5 rate-limited attempts, `generate.py::generate`
+     raises a plain `RuntimeError`, but `agent.py::_run_steps` only catches
+     `ModelUnavailable`. With a fake client that always returned 429, the run
+     crashed and logged `crashed`, and the user never saw the listing search had
+     found. From reading the code, `QuotaGuard` (the 300-call session budget)
+     escapes the same way. This is the outcome the capstone was meant to prevent.
+   - *What I'd do:* raise `ModelUnavailable` in both places so they reach the
+     existing fallback.
+   - *Why I stopped:* it turned up while I was writing this section, after both
+     rounds of trials. No criterion forces a 429, and changing the failure layer
+     now would mean re-running both rounds.
+
+2. **An empty model reply counts as a success.**
+   - *What's broken:* Shape B promised to cover a call that "returns nothing".
+     `generate()` turns an empty reply into `""`, and nothing checks for it. With
+     a fake empty outfit reply, the run logged `complete` with no `Note:`, and the
+     user saw a blank `Outfit:` line.
+   - *What I'd do:* treat an empty reply as `ModelUnavailable` in `generate()`,
+     so it gets the same note and logs as `partial`.
+   - *Why I stopped:* same reason as gap 1. A real empty reply never happened in
+     my 102 logged runs, so no trial exposed it.
+
+3. **The 20-second time limit has never fired.**
+   - *What's broken:* the limit is set in `generate.py::generate`, but no entry
+     in `logs/runs.jsonl` shows a timeout. A fake error containing "timed out"
+     produced the right note, but that doesn't prove the real SDK timeout error
+     has that wording.
+   - *What I'd do:* point the client at a local server that never answers, then
+     add a criterion for the timeout note.
+   - *Why I stopped:* the shortest allowed limit is 10 s and the model answers in
+     about 2 s, so I can't force a timeout with a setting. It needs a new test
+     harness, and my criteria only covered the bad-model-name failure.
+
+4. **The fit-card fallback has never run for real.**
+   - *What's broken:* a bad model name always fails at the outfit step, so real
+     runs never reach this `except`. `criteria.md` says so under criterion 1. With
+     a fake client it kept the listing and outfit and logged `partial`.
+   - *What I'd do:* add a test setting that fails only the second model call.
+   - *Why I stopped:* nothing in the app can fail only the second call, so it
+     needs new test code, and my criterion 1 only covered the outfit step.
+
+5. **The search step has no time limit.**
+   - *What's broken:* `mcp_client.py::call_tool` has no timeout. If the server
+     fails, `agent.py` falls back to calling search directly, but if it hangs,
+     nothing raises and the run waits forever. It also starts a new process on
+     every call, which is most of the 1.74 s search step.
+   - *What I'd do:* wrap the call in `asyncio.wait_for`, then keep one server
+     process open across calls.
+   - *Why I stopped:* I declared search and the MCP server out of scope in
+     Milestone 1.
+
+## The One Thing I'd Do Next
+
+I'd send every bad ending of a model call (rate limit, session budget, empty
+reply) through the same `ModelUnavailable` fallback in `generate.py::generate`.
+Then I'd add a fake model client to `capstone_eval.py` that forces each of those,
+plus a timeout and a fit-card failure, because right now "the user always gets
+the listing" is only proven for a bad model name.
+
+## How I Used AI
+
+**Moment 1: a wrong number in my diagnosis**
+
+- *What I asked for:* a draft of my capstone results built from the saved result
+  files, using Claude Code.
+- *What came back:* correct tables, plus notes for the diagnosis saying the
+  outfit step writes about 224 tokens, which suggested its length explained why
+  Trial 1 missed under 5 s.
+- *What I changed:* when I pasted that summary into a new Claude session, it
+  recomputed from `results/capstone_before.json` and showed that 224 was the
+  whole run, outfit plus fit card, and that Trial 1 wrote the fewest tokens of
+  the three trials. So the diagnosis no longer blames text length for Trial 1. It
+  says search and the outfit call leave only about 0.3 s of margin, and that
+  empty searches, which make no model calls, were slow in Trial 1 too. I also
+  reframed the improvement as adding margin, since it can't fix a slow session.
+
+**Moment 2: how to tighten a target that was too easy**
+
+- *What I asked for:* which criterion to tighten and to what, given that the
+  slowest normal run was 5.5 s.
+- *What came back:* tighten criterion 3 to under 5 s, not 5.5 s, because 5.5 s
+  would just fit the data I already had and all 15 runs would pass. It also said
+  to add a "Revised" note under the criterion and change the limit in
+  `capstone_eval.py`.
+- *What I changed:* I took 5 s, but I didn't replace the 7-second criterion.
+  `criteria.md` stayed as it was, and commit `2eee7b5` adds under-5 s as a
+  separate row, 3b, next to criterion 3. That way the original target is still
+  scored as written, and the tighter one is labeled as coming from the diagnosis.
+
 
 ---
 
