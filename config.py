@@ -93,6 +93,15 @@ MAX_RETRIES = 5
 MODEL_TIMEOUT_SECONDS = max(10.0, float(os.getenv("AI201_MODEL_TIMEOUT", "20")))
 
 CACHE_DIR = ROOT / ".cache"
+LOG_DIR = ROOT / "logs"
+
+# Web app: Vercel's file system is read-only except /tmp, and /tmp is wiped
+# between cold starts. So on Vercel the cache and run log go to /tmp, and each
+# log record is also printed, which is what lands in Vercel's own logs.
+ON_VERCEL = bool(os.getenv("VERCEL"))
+if ON_VERCEL:
+    CACHE_DIR = Path("/tmp/.cache")
+    LOG_DIR = Path("/tmp/logs")
 
 
 # ─── Paths ───────────────────────────────────────────────────────────────────

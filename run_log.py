@@ -13,7 +13,7 @@ from datetime import datetime, timezone
 
 import config
 
-LOG_FILE = config.ROOT / "logs" / "runs.jsonl"
+LOG_FILE = config.LOG_DIR / "runs.jsonl"
 
 
 class StepTimer:
@@ -63,9 +63,14 @@ def write_record(session: dict, duration: float, steps: dict,
         "timeout_s": config.MODEL_TIMEOUT_SECONDS,
     }
 
-    LOG_FILE.parent.mkdir(exist_ok=True)
+    LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
+    line = json.dumps(record, ensure_ascii=False)
     with LOG_FILE.open("a", encoding="utf-8") as f:
-        f.write(json.dumps(record, ensure_ascii=False) + "\n")
+        f.write(line + "\n")
+
+    # On Vercel the file doesn't last, so also print it to Vercel's logs.
+    if config.ON_VERCEL:
+        print(f"[run] {line}", flush=True)
     return record
 
 

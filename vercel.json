@@ -1,0 +1,12 @@
+{
+  "builds": [
+    {
+      "src": "serve.py",
+      "use": "@vercel/python",
+      "config": { "includeFiles": ["web/**", "data/**", "utils/**", "*.py"] }
+    }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "serve.py" }
+  ]
+}

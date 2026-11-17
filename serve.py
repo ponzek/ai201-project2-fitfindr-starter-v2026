@@ -41,12 +41,21 @@ import threading
 # and fixes the Windows console encoding for every module that imports it.
 import config  # noqa: F401
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 
 from agent import run_agent
 from utils.data_loader import get_example_wardrobe
 
 app = Flask(__name__)
+
+# Web app: the page lives in web/index.html and talks to POST /ask.
+WEB_DIR = config.ROOT / "web"
+
+
+@app.get("/")
+def home():
+    """The FitFindr web page."""
+    return send_from_directory(WEB_DIR, "index.html")
 
 
 # ── one request at a time ─────────────────────────────────────────────────────

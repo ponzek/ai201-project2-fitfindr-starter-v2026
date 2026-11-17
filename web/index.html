@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FitFindr — Secondhand Styling</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gloock&family=Playfair+Display:ital,wght@1,600&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* Colors taken from the slide: cream paper, near-black ink, dusty rose. */
+    :root {
+      --paper: #faf0ec;
+      --paper-deep: #f3e2dd;
+      --ink: #2a2425;
+      --ink-soft: #5b4f50;
+      --rose: #c9999a;
+      --rose-deep: #b07f80;
+      --rose-line: #dcb4b2;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Lora", Georgia, serif;
+      line-height: 1.6;
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 28px 72px;
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 56px;
+      align-items: start;
+    }
+
+    /* ── left: the title and the search ── */
+    h1 {
+      font-family: "Gloock", Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(64px, 9vw, 112px);
+      line-height: 0.9;
+      letter-spacing: -0.01em;
+      margin: 0;
+      text-transform: uppercase;
+    }
+
+    .tagline {
+      font-family: "Playfair Display", Georgia, serif;
+      font-style: italic;
+      font-weight: 600;
+      color: var(--rose);
+      font-size: clamp(30px, 4vw, 44px);
+      margin: 10px 0 22px;
+    }
+
+    .rule { border: 0; border-top: 1px solid var(--rose-line); margin: 0 0 22px; }
+
+    .lede {
+      border-left: 4px solid var(--rose);
+      padding-left: 16px;
+      color: var(--ink-soft);
+      margin: 0 0 32px;
+    }
+
+    label { display: block; font-weight: 600; margin-bottom: 8px; }
+
+    .search { display: flex; gap: 10px; }
+
+    input[type="text"] {
+      flex: 1;
+      font: inherit;
+      padding: 12px 14px;
+      border: 1px solid var(--rose-line);
+      background: #fffaf8;
+      color: var(--ink);
+    }
+    input[type="text"]:focus { outline: 2px solid var(--rose); outline-offset: 1px; }
+
+    button {
+      font-family: "Gloock", Georgia, serif;
+      font-size: 17px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 12px 22px;
+      border: 0;
+      background: var(--ink);
+      color: var(--paper);
+      cursor: pointer;
+    }
+    button:hover { background: var(--rose-deep); }
+    button:disabled { background: var(--rose-line); cursor: wait; }
+
+    .options { margin-top: 14px; font-size: 15px; color: var(--ink-soft); }
+    .options label { display: inline; font-weight: 400; margin-left: 4px; }
+
+    .examples { margin-top: 26px; font-size: 15px; color: var(--ink-soft); }
+    .examples button {
+      font-family: "Lora", Georgia, serif;
+      font-size: 14px;
+      text-transform: none;
+      letter-spacing: 0;
+      padding: 6px 12px;
+      margin: 6px 6px 0 0;
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--rose-line);
+    }
+    .examples button:hover { background: var(--paper-deep); }
+
+    /* ── right: the framed result, like the photo frame on the slide ── */
+    .frame {
+      border: 2px solid var(--rose-line);
+      padding: 12px;
+      background: var(--paper);
+    }
+    .frame-inner {
+      background: var(--paper-deep);
+      min-height: 460px;
+      padding: 32px;
+    }
+
+    .placeholder {
+      font-family: "Playfair Display", Georgia, serif;
+      font-style: italic;
+      color: var(--rose-deep);
+      font-size: 24px;
+      text-align: center;
+      padding-top: 160px;
+    }
+
+    .section-title {
+      font-family: "Playfair Display", Georgia, serif;
+      font-style: italic;
+      font-weight: 600;
+      color: var(--rose-deep);
+      font-size: 24px;
+      margin: 0 0 8px;
+    }
+
+    .item-title {
+      font-family: "Gloock", Georgia, serif;
+      font-size: 30px;
+      line-height: 1.15;
+      margin: 0 0 6px;
+    }
+
+    .item-meta { color: var(--ink-soft); margin: 0 0 24px; }
+    .price { color: var(--ink); font-weight: 600; }
+
+    .block { margin-bottom: 26px; }
+    .block p { margin: 0 0 10px; }
+
+    .fit-card {
+      background: #fffaf8;
+      border-left: 4px solid var(--rose);
+      padding: 16px 18px;
+      font-style: italic;
+    }
+
+    .note {
+      border: 1px solid var(--rose);
+      background: #fff6f4;
+      padding: 14px 16px;
+      margin-bottom: 24px;
+    }
+    .note strong { color: var(--rose-deep); }
+
+    .stats { font-size: 13px; color: var(--ink-soft); border-top: 1px solid var(--rose-line); padding-top: 12px; }
+
+    @media (max-width: 860px) {
+      .page { grid-template-columns: 1fr; gap: 36px; padding-top: 32px; }
+      .placeholder { padding-top: 60px; }
+      .frame-inner { min-height: 0; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section>
+      <h1>Fit<br>Findr</h1>
+      <p class="tagline">Thrifted, styled, captioned.</p>
+      <hr class="rule">
+      <p class="lede">
+        Tell FitFindr what you're hunting for. It searches secondhand listings,
+        styles the best match with pieces from your wardrobe, and writes a caption
+        worth posting.
+      </p>
+
+      <form id="ask-form">
+        <label for="query">What are you looking for?</label>
+        <div class="search">
+          <input id="query" type="text" value="vintage graphic tee under $30"
+                 placeholder="e.g. denim jacket under $50" autocomplete="off">
+          <button id="go" type="submit">Find</button>
+        </div>
+        <div class="options">
+          <input id="empty-wardrobe" type="checkbox">
+          <label for="empty-wardrobe">Style it for an empty wardrobe</label>
+        </div>
+      </form>
+
+      <div class="examples">
+        Try one:<br>
+        <button type="button" data-q="90s track jacket in size M">90s track jacket in size M</button>
+        <button type="button" data-q="silk slip dress in midi length under $40">silk slip dress under $40</button>
+        <button type="button" data-q="designer ballgown size XXS under $5">designer ballgown under $5</button>
+      </div>
+    </section>
+
+    <section class="frame" aria-live="polite">
+      <div class="frame-inner" id="result">
+        <p class="placeholder">Your find will appear here.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById("ask-form");
+    const input = document.getElementById("query");
+    const button = document.getElementById("go");
+    const emptyWardrobe = document.getElementById("empty-wardrobe");
+    const result = document.getElementById("result");
+
+    // Escape model text before putting it on the page.
+    function escapeHtml(text) {
+      return String(text ?? "")
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    // The model writes light markdown: **bold** and line breaks.
+    function formatText(text) {
+      return escapeHtml(text)
+        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+        .split(/\n\s*\n/)
+        .map(p => `<p>${p.replace(/\n/g, "<br>")}</p>`)
+        .join("");
+    }
+
+    function formatPrice(price) {
+      return Number.isInteger(price) ? `$${price}` : `$${Number(price).toFixed(2)}`;
+    }
+
+    function capitalize(word) {
+      return word ? word.charAt(0).toUpperCase() + word.slice(1) : "";
+    }
+
+    function render(session, seconds) {
+      // Search found nothing: show the advice and stop, like the CLI does.
+      if (session.error && !session.selected_item) {
+        result.innerHTML = `
+          <p class="section-title">Nothing matched</p>
+          <p>${escapeHtml(session.error)}</p>`;
+        return;
+      }
+
+      const item = session.selected_item;
+      let html = `
+        <p class="section-title">The find</p>
+        <p class="item-title">${escapeHtml(item.title)}</p>
+        <p class="item-meta">
+          <span class="price">${formatPrice(item.price)}</span>
+          on ${escapeHtml(capitalize(item.platform))}
+          · size ${escapeHtml(item.size)} · ${escapeHtml(item.condition)} condition
+        </p>`;
+
+      // A model step failed, but we kept the listing: say which step.
+      if (session.warning) {
+        html += `<div class="note"><strong>Note:</strong> ${escapeHtml(session.warning)}</div>`;
+      }
+
+      if (session.outfit_suggestion) {
+        html += `<div class="block">
+          <p class="section-title">How to wear it</p>
+          ${formatText(session.outfit_suggestion)}
+        </div>`;
+      }
+
+      if (session.fit_card) {
+        html += `<div class="block">
+          <p class="section-title">Your fit card</p>
+          <div class="fit-card">${formatText(session.fit_card)}</div>
+        </div>`;
+      }
+
+      html += `<p class="stats">Answered in ${seconds.toFixed(1)} s</p>`;
+      result.innerHTML = html;
+    }
+
+    async function ask(query) {
+      button.disabled = true;
+      button.textContent = "Finding…";
+      result.innerHTML = `<p class="placeholder">Searching the racks…</p>`;
+      const started = performance.now();
+
+      try {
+        const body = { query };
+        if (emptyWardrobe.checked) body.wardrobe = { items: [] };
+
+        const response = await fetch("/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        const data = await response.json();
+        const seconds = (performance.now() - started) / 1000;
+
+        if (!response.ok) {
+          result.innerHTML = `<p class="section-title">Something went wrong</p>
+            <p>${escapeHtml(data.error || "The server didn't answer.")}</p>`;
+        } else {
+          render(data, seconds);
+        }
+      } catch (err) {
+        result.innerHTML = `<p class="section-title">Couldn't reach FitFindr</p>
+          <p>Check your connection and try again.</p>`;
+      } finally {
+        button.disabled = false;
+        button.textContent = "Find";
+      }
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const query = input.value.trim();
+      if (query) ask(query);
+    });
+
+    document.querySelectorAll(".examples button").forEach((b) => {
+      b.addEventListener("click", () => {
+        input.value = b.dataset.q;
+        ask(b.dataset.q);
+      });
+    });
+  </script>
+</body>
+</html>
