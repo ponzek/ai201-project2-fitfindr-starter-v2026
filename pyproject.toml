@@ -1,0 +1,15 @@
+[project]
+name = "fitfindr"
+version = "1.0.0"
+requires-python = ">=3.11"
+dependencies = [
+    "python-dotenv>=1.0,<1.2",
+    "google-genai>=1.0,<2.0",
+    "mcp>=1.0,<2.0",
+    "flask>=3.0,<4.0",
+]
+
+# Tells Vercel which Flask app to run: the `app` object in serve.py.
+# (app.py is the command line, not the web server.)
+[tool.vercel]
+entrypoint = "serve:app"
