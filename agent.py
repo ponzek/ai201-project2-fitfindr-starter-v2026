@@ -164,6 +164,11 @@ def _run_steps(session: dict, timer) -> None:
 
     timer.start()
     try:
+        # Web app: on Vercel, starting a second Python process for the MCP
+        # server is slow and can hang (it has no time limit), so call search
+        # directly there. Locally, search still goes through MCP.
+        if config.ON_VERCEL:
+            raise RuntimeError("skip MCP on Vercel")
         from mcp_client import call_tool
         session["search_results"] = call_tool("search_listings", search_args)
         step_name = "search_listings (via MCP)"
