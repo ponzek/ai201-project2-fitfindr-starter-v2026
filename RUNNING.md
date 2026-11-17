@@ -1,191 +1,109 @@
 # Running FitFindr
 
-## Capstone run path (Unit 9) — Path B, local with logs
+FitFindr is a thrift-shopping agent. You describe what you want, it finds a
+listing, suggests an outfit from your wardrobe, and writes a fit card caption.
+It runs locally from the command line (capstone Path B: local with logs).
 
-**Start command** (from the repo folder, after setup below):
+---
+
+## Quick start (Windows PowerShell)
 
 ```powershell
+# Clone the project
+git clone https://github.com/ponzek/ai201-project2-fitfindr-starter-v2026.git
+
+# Enter the project folder
+cd ai201-project2-fitfindr-starter-v2026
+
+# Create and activate the environment
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Create .env from the example, then open .env and paste in your own GEMINI_API_KEY
+copy .env.example .env
+
+# Verify setup
+python test.py
+
+# Run FitFindr
 python app.py ask 'vintage graphic tee under $30'
 ```
 
-Every run adds one JSON line to `logs/runs.jsonl`. Read the last 10 with:
+**macOS / Linux:** use `python3 -m venv .venv`, `source .venv/bin/activate`, and
+`cp .env.example .env` for those three lines. Everything else is the same.
 
-```powershell
-python run_log.py
-```
+You're ready when `python test.py` passes. Activate the environment again each
+time you open a new terminal; you should see `(.venv)` at the start of the prompt.
 
-**What the environment needs**
+> **Use single quotes around queries.** In PowerShell, `"... under $30"` in
+> double quotes silently drops `$30` (it's read as a variable), so the price
+> limit disappears with no error.
+
+---
+
+## What the environment needs
 
 | Thing | Value |
 |---|---|
-| Python | 3.11–3.13 supported (`requirements.txt`). I ran the capstone on 3.10.10; it worked, but `test.py` flags it. |
-| Packages | `pip install -r requirements.txt` — pinned with upper and lower bounds: `python-dotenv>=1.0,<1.2`, `google-genai>=1.0,<2.0`, `mcp>=1.0,<2.0`, `flask>=3.0,<4.0`, `gunicorn>=21.2,<24.0` |
-| API key | `GEMINI_API_KEY` in a `.env` file (copy `.env.example`). Never commit `.env`. |
+| Python | **Use 3.11, 3.12, or 3.13** (what `requirements.txt` supports). The capstone runs were done on 3.10.10, which worked, but `test.py` flags it as unsupported, so don't rely on it. |
+| Packages | `pip install -r requirements.txt`. Pinned with upper and lower bounds: `python-dotenv>=1.0,<1.2`, `google-genai>=1.0,<2.0`, `mcp>=1.0,<2.0`, `flask>=3.0,<4.0`, `gunicorn>=21.2,<24.0` |
+| API key | A free Gemini key from aistudio.google.com, saved as `GEMINI_API_KEY` in `.env`. Never commit `.env`; it's in `.gitignore`. |
 | Model files | None. FitFindr calls the Gemini API (`gemini-3.5-flash-lite`); nothing is downloaded. |
 | Network | Needed for the model calls. |
 
-**Settings you can change for testing** (environment variables):
-
-| Variable | What it does |
-|---|---|
-| `AI201_CACHE=0` | Turns off the response cache, so every run makes real model calls. Use this for any measured run. |
-| `AI201_MODEL_TIMEOUT=20` | Seconds before a model call is abandoned. Minimum 10 (Gemini rejects less). |
-| `AI201_MODEL=no-such-model` | Forces a model failure, to test the fallback. |
-
 ---
 
-Everything about how the starter works and how to use it.
-
----
-
-## Before your first class
-
-Setup happens **before class**. The [environment setup page](../pages/ide_setup)
-has the per-operating-system commands and the exact versions.
-
-**Same API key you set up in unit 1.** Nothing new to sign up for. There is one
-new package — the MCP SDK, for unit 4 — and it installs with everything else.
-
-From inside this repo after you've forked and cloned it:
-
-**macOS / Linux**
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env          # then paste your key into .env
-python test.py
-```
-
-**Windows (PowerShell)**
-
-```powershell
-python -m venv .venv
-.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-copy .env.example .env         # then paste your key into .env
-python test.py
-```
-
-**You're ready when `python test.py` passes.**
-
-If it doesn't and you've made one honest attempt at the error, post the
-**whole** output in the help channel.
-
-> Activate the virtual environment every time you open a new terminal. You
-> should see `(.venv)` at the start of your prompt.
-
----
-
-## Your first five minutes
-
-Start with the data. Your tools will only be as good as your understanding of
-what they're reading, and ten minutes here saves an hour of confused debugging.
-
-```bash
-python app.py fields                    # what a listing and a wardrobe item hold
-python app.py listings --full -n 6      # read six listings all the way through
-python app.py examples                  # queries worth trying
-python app.py ask 'vintage graphic tee under $30'
-```
-
-> **Quote your queries with single quotes**, on every operating system. In
-> PowerShell, `"vintage graphic tee under $30"` in double quotes silently
-> becomes `vintage graphic tee under ` — PowerShell reads `$30` as a variable
-> and substitutes nothing. You get results with no price ceiling and no error
-> saying so. Single quotes are literal in PowerShell, bash and zsh alike.
-
-That last one runs the loop. All three tools are stubs, so it will tell you the
-loop isn't built yet. **That's the correct starting position** — it runs, and it
-does nothing.
-
----
-
-## Every command
+## Commands
 
 | Command | What it does |
 |---|---|
-| `python test.py` | Checks your environment. Run it whenever something feels off |
-| `python app.py fields` | The fields a listing and a wardrobe item have — **Milestone 1** |
-| `python app.py listings` | Browse the data. `--full` for whole records, `-n` for how many |
+| `python test.py` | Checks the environment, packages, key, and one model call |
+| `python app.py ask '...'` | Runs the agent on one query |
+| `python app.py ask '...' --trace` | Same, printing each step |
+| `python app.py ask '...' --empty-wardrobe` | Runs as a user with nothing in their wardrobe |
 | `python app.py examples` | Queries worth trying, including one that matches nothing |
-| `python app.py ask '...'` | Run the agent on one query — **single quotes** |
-| `python app.py ask` | Keep asking until you press Enter on an empty line |
-| `python agent.py` | Runs both example paths — one that matches, one that can't |
-| `python mcp_server.py` | Starts your MCP server — **unit 4** |
-| `python mcp_client.py` | Asks the server what it offers — **unit 4** |
-| `python run_eval.py --label before` | Runs every scenario five times and writes the run log — **unit 4** |
-| `python serve.py` | Serves the agent over HTTP instead of exiting — **unit 9** |
+| `python app.py listings --full -n 6` | Shows six listings in full |
+| `python run_log.py` | Prints the last 10 records from the run log |
+| `python capstone_eval.py --label before` | Runs the five capstone criteria for 3 trials (about 5 minutes) and writes `results/capstone_<label>.md` and `.json` |
 
-Useful flags on `ask`:
+### Try these
 
-| Flag | What it does |
-|---|---|
-| `--trace` | Print the loop step by step, once you've added the trace calls |
-| `--empty-wardrobe` | Run as a user with nothing saved — one of unit 4's failure modes |
+```powershell
+python app.py ask 'vintage graphic tee under $30'          # normal run
+python app.py ask 'designer ballgown size XXS under $5'    # nothing matches: stops early, no model calls
+```
+
+To see the failure fallback, break the model name for one run:
+
+```powershell
+$env:AI201_MODEL='no-such-model'; python app.py ask 'denim jacket under $50'; Remove-Item Env:AI201_MODEL
+```
+
+You should still see the listing (`Found: Denim Jacket ...`) plus a `Note:`
+saying the outfit step failed.
 
 ---
 
-## Which command goes with which milestone
+## The run log
 
-### Unit 3 — the build
-
-| Milestone | What you're doing | Where |
-|---|---|---|
-| 1 | Read the data, run the starter | `app.py fields`, `app.py listings --full`, `app.py ask` |
-| 2 | Spec your three tools | README, **Tool Inventory** |
-| 3 | Write your acceptance criteria | `criteria.md` |
-| 4 | Build the three tools | `tools.py`, tested one at a time from a terminal |
-| 5 | Wire the loop and the state | `agent.py::run_agent` |
-| 6 | Write it up | README |
-
-### Unit 4 — the test
-
-| Milestone | What you're doing | Where |
-|---|---|---|
-| 1 | Move one tool onto MCP | `mcp_server.py`, then `mcp_client.call_tool` in `run_agent` |
-| 2 | Break it on purpose, then trace it | `trace.py`, `app.py ask --trace` |
-| 3 | Run your test | `scenarios.py`, then `run_eval.py --label before` |
-| 4 | Call each criterion, diagnose the misses | README |
-| 5 | Fix one thing and re-run | `run_eval.py --label after` |
-| 6 | Say what's still broken | README |
+Every run, including failed ones, adds one JSON line to `logs/runs.jsonl` with
+the timestamp, query, outcome, time per step, model calls, and tokens. The code
+is in `run_log.py`. The README's **Instrumentation** section explains each field.
 
 ---
 
-## Running it somewhere else — **unit 9**
+## Settings for testing
 
-Everything above exits when the command finishes. A host has nothing to keep
-running, so before you can deploy this you need something that stays up.
-`serve.py` is that: the same `run_agent()`, behind two HTTP routes.
+Set these as environment variables in PowerShell, for example `$env:AI201_CACHE='0'`.
 
-On your machine:
-
-```bash
-python serve.py
-curl -X POST http://localhost:5000/ask \
-  -H 'Content-Type: application/json' \
-  -d '{"query": "vintage graphic tee under $30"}'
-```
-
-On a host, the start command is:
-
-```bash
-gunicorn serve:app
-```
-
-| Thing | What it means |
+| Variable | What it does |
 |---|---|
-| `PORT` | The host tells your app which port to listen on by setting this. Both `serve.py` and `gunicorn` read it, and `serve.py` falls back to `5000` on your machine. Don't hard-code a port |
-| `POST /ask` | `{"query": "...", "wardrobe": {...}}` — wardrobe optional. Returns the session dict, `error` and all |
-| `GET /health` | Says `ok` if the app is awake |
-| It answers one request at a time | On purpose. A second request waits for the first to finish, and prints `[serve] another request is still running` while it waits. An MCP tool call starts a whole second Python process, and the free tier's 512 MB has no room for two of those at once — and `generate.py`'s rate-limit counting assumes one caller. The reasoning is written out in `serve.py` |
-| `gunicorn serve:app`, exactly | Not `-k gevent`, not `-k eventlet`, not wrapped for uvicorn. `mcp_client.call_tool` uses `asyncio.run()`, which won't start inside a running event loop, so an async worker breaks **every** MCP call — and only once you've deployed it |
-| The first request is slow | The free tier puts your app to sleep after about fifteen minutes of nothing. The next request wakes it up and waits for it — around a minute. Not a bug, and worth knowing before you demo it |
-
-`serve.py` ships with **no logging and no timing in it**, on purpose. You add
-that yourself in the follow-along, before you deploy — instrumenting first is
-the point of the session.
+| `AI201_CACHE=0` | Turns off the response cache, so every run makes real model calls. Use it for any measured run. |
+| `AI201_MODEL_TIMEOUT=20` | Seconds before a model call is abandoned. Minimum 10 (Gemini rejects less). |
+| `AI201_MODEL=no-such-model` | Forces a model failure, to test the fallback. |
 
 ---
 
@@ -193,57 +111,17 @@ the point of the session.
 
 | File | What it does |
 |---|---|
-| `config.py` | Every setting worth changing — **TEMPERATURE and the cache are at the top** |
-| `tools.py` | Your three tools. **Stubs — you build these** |
-| `agent.py` | The planning loop and the session. **Stub — you build this** |
-| `generate.py` | The only thing that calls out to a service. Handles pacing and quota |
-| `trace.py` | The trace helper, and the loop's stop condition |
 | `app.py` | The command line |
-| `serve.py` | The same agent over HTTP, for deploying — **unit 9** |
-| `mcp_server.py` | Your MCP server — **unit 4, you register the tool** |
-| `mcp_client.py` | Calling an MCP tool from your agent. Given to you |
-| `scenarios.py` | What your test runs. **You fill this in** |
-| `run_eval.py` | Runs the scenarios repeatedly and writes the run log |
-| `criteria.md` | Your five acceptance criteria. **You fill this in** |
-| `data/` | 40 listings and the wardrobe schema |
-| `utils/data_loader.py` | Loading the data. Use this rather than reading the files yourself |
-| `results/` | Run logs. **Commit these** — they're your evidence |
-
----
-
-## The two settings people go looking for
-
-Both are at the top of `config.py`, and the brief points at them by name.
-
-If your fit cards come out **word-for-word identical** every time, it is one of:
-
-- **`CACHE_ENABLED`** — while you build, identical prompts reuse the answer
-  already received. That's deliberate; it makes debugging free. `run_eval.py`
-  turns it off automatically.
-- **`TEMPERATURE`** — at `0.0` the model gives you the same words every time.
-  It ships at `0.9`.
-
----
-
-## About rate limits
-
-**This is the heaviest pair in the course for call volume.** Two of your three
-tools call the model, so one agent run is several requests, and a few runs back
-to back while debugging can cross the per-minute limit.
-
-`generate.py` handles it:
-
-- **It paces itself** and says when it's waiting. **A pause is the starter
-  doing its job, not a bug.**
-- **It reuses answers** to prompts already sent, while you build.
-- **It stops** if a session makes an unreasonable number of calls, rather than
-  draining your day's allowance. For an agent, that usually means a loop isn't
-  ending — look for that before raising the number.
-- **It counts your calls** and prints the total when you exit.
-
-`config.MAX_ITERATIONS` is the loop's own stop condition. Your loop this unit
-is short enough that you may never hit it. Keep it — a missing stop condition
-is the most common architectural failure in production agents.
+| `agent.py` | The planning loop, the fallback when a model step fails, and the call to the run log |
+| `tools.py` | The three tools: `search_listings`, `suggest_outfit`, `create_fit_card` |
+| `generate.py` | The only code that calls Gemini: pacing, retries, time limit, token counts |
+| `run_log.py` | Writes and reads `logs/runs.jsonl` |
+| `capstone_eval.py` | Runs the capstone criteria and builds the results table |
+| `config.py` | Settings: model, temperature, cache, time limit, rate limit |
+| `mcp_server.py` / `mcp_client.py` | Search runs through an MCP server |
+| `criteria.md` | Acceptance criteria (Unit 9 capstone at the bottom) |
+| `results/` | Saved test results |
+| `data/` | 40 listings and the example wardrobe |
 
 ---
 
@@ -251,32 +129,10 @@ is the most common architectural failure in production agents.
 
 | What you see | What it means |
 |---|---|
-| `The planning loop isn't built yet` | Correct, at the start. That's the TODO in `agent.py` |
-| `No GEMINI_API_KEY found` | No `.env`, or the key wasn't pasted in. On Windows check it didn't save as `.env.txt` |
-| A message saying the model couldn't be reached | Usually a bad key. This is also **exactly what unit 4 Milestone 2 asks you to trigger on purpose** |
-| `[rate limit] ... Waiting 34s` | Working as intended. Leave it |
-| `[serve] another request is still running` | Also working as intended. `serve.py` answers one request at a time; yours is queued behind one that's mid-run |
-| `QuotaGuard: This session has made 300 requests` | A loop isn't ending. Find it before raising the budget |
-| `The loop ran 11 times, past MAX_ITERATIONS` | Same thing, caught earlier |
-| `The server doesn't offer a tool called '...'` | Nothing registered in `mcp_server.py` yet, or the name doesn't match |
-| MCP returns a string where you expected a list | You're not going through `mcp_client.call_tool`, which unwraps it |
-| Fit cards identical every run | `CACHE_ENABLED` or `TEMPERATURE`. See above |
-| `--trace` prints nothing | You haven't added `trace.step()` calls yet — unit 4, Milestone 2 |
-| `IncompleteFieldDefinitionWarning: Field 'lifespan'` | Harmless noise from the MCP library's dependencies. Not your code, not an error. Ignore it |
-| A price ceiling you typed is being ignored | You used double quotes in PowerShell. `$30` vanished. Use single quotes |
-| `UnicodeEncodeError: 'charmap' codec can't encode` | Shouldn't happen — `config.py` sets the console to UTF-8. If you see it, you're running a file that doesn't import `config` |
-
-Still stuck after one honest attempt? Post in the help channel with the full
-error, what you ran, and what you expected.
-
----
-
-## A note on committing
-
-At least four new commits in unit 3, at least four more in unit 4. Your commit
-history is what shows your criteria existed before your results did.
-
-**Do not delete and recreate this repository.** You submit the same URL both
-units.
-
-`results/` is deliberately **not** in `.gitignore`.
+| `No GEMINI_API_KEY found` | No `.env`, or the key wasn't pasted in. On Windows, check it didn't save as `.env.txt`. |
+| `Note: Couldn't suggest an outfit: The model rejected your API key` | Bad key in `.env`. The listing still shows; that's the fallback working. |
+| `[rate limit] ... Waiting 34s` | The free tier allows 15 requests a minute. It's pacing itself; leave it. |
+| A price limit you typed is ignored | You used double quotes in PowerShell. Use single quotes. |
+| `IncompleteFieldDefinitionWarning: Field 'lifespan'` | Harmless noise from the MCP library. Ignore it. |
+| Every run gives word-for-word the same text | The cache is on. Set `AI201_CACHE=0`. |
+| The first run is slower | Normal: a run takes about 4–6 seconds, about 2 of which is starting the MCP server for search. |
