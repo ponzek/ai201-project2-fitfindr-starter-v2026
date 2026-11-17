@@ -102,6 +102,9 @@ ON_VERCEL = bool(os.getenv("VERCEL"))
 if ON_VERCEL:
     CACHE_DIR = Path("/tmp/.cache")
     LOG_DIR = Path("/tmp/logs")
+    # Visitors should get a freshly written outfit and fit card every time,
+    # not a saved copy of the last answer to the same search.
+    CACHE_ENABLED = False
 
 
 # ─── Paths ───────────────────────────────────────────────────────────────────

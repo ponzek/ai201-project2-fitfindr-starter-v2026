@@ -20,7 +20,7 @@ import config
 import generate
 import run_log
 import trace
-from tools import search_listings, suggest_outfit, create_fit_card, missing_kinds
+from tools import search_listings, suggest_outfit, create_fit_card, missing_kinds, color_notice
 from generate import ModelUnavailable
 
 
@@ -217,6 +217,10 @@ def _run_steps(session: dict, timer) -> None:
     iteration += 1
     trace.check_iterations(iteration)
     session["selected_item"] = session["search_results"][0]
+
+    # Web app: color is a preference, not a filter. If the best match isn't in
+    # the color they asked for, say so instead of quietly showing another color.
+    session["notice"] = color_notice(parsed_input.get("description", query), session["selected_item"])
 
     # Step 4: Suggest outfits by reading selected item and wardrobe from session
     iteration += 1

@@ -62,6 +62,21 @@ def _matches_size(item_size: str, query_size: str) -> bool:
     return False
 
 
+def color_notice(description: str, item: dict) -> str | None:
+    """
+    Web app: a one-line note when the query asked for a color the chosen
+    listing isn't. Returns None when the color matches or none was asked for.
+    """
+    asked = [w for w in description.lower().split() if w in catalog_words.COLORS]
+    if not asked:
+        return None
+    wanted = catalog_words.colors_in(description)
+    item_colors = [c.lower() for c in item.get("colors", [])]
+    if any(c in item_colors for c in wanted):
+        return None
+    return f"We don't have this in {' or '.join(asked)} right now, so here's the closest match."
+
+
 # ── Tool 1: search_listings ───────────────────────────────────────────────────
 
 def missing_kinds(description: str) -> list[str]:

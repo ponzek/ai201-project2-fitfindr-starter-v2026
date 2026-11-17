@@ -269,6 +269,11 @@
           · size ${escapeHtml(item.size)} · ${escapeHtml(item.condition)} condition
         </p>`;
 
+      // The color they asked for isn't available: say so up front.
+      if (session.notice) {
+        html += `<div class="note">${escapeHtml(session.notice)}</div>`;
+      }
+
       // A model step failed, but we kept the listing: say which step.
       if (session.warning) {
         html += `<div class="note"><strong>Note:</strong> ${escapeHtml(session.warning)}</div>`;
