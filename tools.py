@@ -21,6 +21,7 @@ the description has to say what is *in* the list.
 """
 
 import re
+import catalog_words
 import config
 from generate import generate
 from utils.data_loader import load_listings
@@ -63,6 +64,18 @@ def _matches_size(item_size: str, query_size: str) -> bool:
 
 # ── Tool 1: search_listings ───────────────────────────────────────────────────
 
+def missing_kinds(description: str) -> list[str]:
+    """
+    Web app: kinds of clothing the query asks for that no listing in the whole
+    catalog is. Returned as plurals, ready for a sentence ("ascots").
+    """
+    listings = load_listings()
+    missing = []
+    for kind, words in catalog_words.clothing_in(description).items():
+        if not any(catalog_words.is_kind(item, words) for item in listings):
+            missing.append(kind if kind.endswith("s") else kind + "s")
+    return missing
+
 def _word_weights(words: list[str], listings: list[dict]) -> dict:
     """
     Web app: rarer words count more. "white" appears in many listings, so it
@@ -97,6 +110,16 @@ def search_listings(
     words = [w for w in re.findall(r"[a-z0-9]+", description.lower()) if w not in _STOPWORDS]
     desc_lower = description.lower()
     weights = _word_weights(words, listings)
+
+    # Web app: if the query names a kind of clothing, only that kind counts.
+    # "silk ascot" should find ascots or nothing, not a silk shirt.
+    kinds = catalog_words.clothing_in(description)
+    if kinds:
+        listings = [item for item in listings
+                    if any(catalog_words.is_kind(item, words_for_kind) for words_for_kind in kinds.values())]
+
+    # Colors widen to close relatives ("gray" also finds "grey" and "charcoal").
+    wanted_colors = catalog_words.colors_in(description)
 
     scored_results = []
     for item in listings:
@@ -133,6 +156,15 @@ def search_listings(
             if w in item_desc:
                 word_score += 1
             score += word_score * weights[w]
+
+        # A matching color, or a close relative of it, ranks the item higher.
+        if any(c in item_colors for c in wanted_colors):
+            score += 6
+
+        # When the query named a kind of clothing, every listing left is that
+        # kind, so keep it even if no other word matched.
+        if kinds and score == 0:
+            score = 1
 
         if score > 0:
             scored_results.append((score, item))

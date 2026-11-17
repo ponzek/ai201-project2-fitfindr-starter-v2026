@@ -20,7 +20,7 @@ import config
 import generate
 import run_log
 import trace
-from tools import search_listings, suggest_outfit, create_fit_card
+from tools import search_listings, suggest_outfit, create_fit_card, missing_kinds
 from generate import ModelUnavailable
 
 
@@ -191,6 +191,17 @@ def _run_steps(session: dict, timer) -> None:
     # ⚠️ BRANCH: If search returned nothing, stop early and explain what to change
     if not session["search_results"]:
         trace.step(step_name, inputs=search_args, returned=[], note="branch: empty search, stopping early")
+
+        # Web app: if they asked for a kind of clothing the catalog has none of,
+        # say that plainly instead of suggesting a different price or size.
+        missing = missing_kinds(parsed_input.get("description", query))
+        if missing:
+            session["error"] = (
+                f"We don't have any {' or '.join(missing)} right now. "
+                f"Try a different item, like a jacket, jeans, or sneakers."
+            )
+            return session
+
         filters = []
         if parsed_input.get("max_price") is not None:
             filters.append(f"raising your price limit above ${parsed_input['max_price']}")
