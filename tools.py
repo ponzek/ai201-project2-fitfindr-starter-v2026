@@ -63,6 +63,27 @@ def _matches_size(item_size: str, query_size: str) -> bool:
 
 # ── Tool 1: search_listings ───────────────────────────────────────────────────
 
+def _word_weights(words: list[str], listings: list[dict]) -> dict:
+    """
+    Web app: rarer words count more. "white" appears in many listings, so it
+    shouldn't outweigh "blazer", which appears in two. A word in 3 or fewer
+    listings counts triple, in 8 or fewer double, otherwise once.
+    """
+    weights = {}
+    for w in words:
+        appears_in = sum(
+            1 for item in listings
+            if w in f"{item.get('title', '')} {item.get('description', '')} "
+                    f"{' '.join(item.get('style_tags', []))} {' '.join(item.get('colors', []))}".lower()
+        )
+        if appears_in <= 3:
+            weights[w] = 3
+        elif appears_in <= 8:
+            weights[w] = 2
+        else:
+            weights[w] = 1
+    return weights
+
 def search_listings(
     description: str,
     size: str | None = None,
@@ -75,6 +96,7 @@ def search_listings(
     listings = load_listings()
     words = [w for w in re.findall(r"[a-z0-9]+", description.lower()) if w not in _STOPWORDS]
     desc_lower = description.lower()
+    weights = _word_weights(words, listings)
 
     scored_results = []
     for item in listings:
@@ -97,18 +119,20 @@ def search_listings(
             score += 5
 
         for w in words:
+            word_score = 0
             if w in item_title:
-                score += 4
+                word_score += 4
             if any(w == t or w in t for t in item_tags):
-                score += 3
+                word_score += 3
             if w == item_cat or w in item_cat:
-                score += 3
+                word_score += 3
             if any(w == c for c in item_colors):
-                score += 2
+                word_score += 2
             if item_brand and w in item_brand:
-                score += 2
+                word_score += 2
             if w in item_desc:
-                score += 1
+                word_score += 1
+            score += word_score * weights[w]
 
         if score > 0:
             scored_results.append((score, item))

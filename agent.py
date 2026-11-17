@@ -53,6 +53,13 @@ def parse_query(query: str) -> dict:
     if size_match:
         parsed["size"] = size_match.group(1).strip()
         working = working[:size_match.start()] + " " + working[size_match.end():]
+    else:
+        # Web app: also catch a letter size typed on its own ("blazer XXL").
+        # Only the unambiguous ones; a lone S, M or L is too easy to misread.
+        bare_size = re.search(r"\b(XXXL|XXL|XL|XXS|XS)\b", working, re.I)
+        if bare_size:
+            parsed["size"] = bare_size.group(1).upper()
+            working = working[:bare_size.start()] + " " + working[bare_size.end():]
 
     # 3. Clean up description
     desc = re.sub(
