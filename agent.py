@@ -56,7 +56,7 @@ def parse_query(query: str) -> dict:
     else:
         # Web app: also catch a letter size typed on its own ("blazer XXL").
         # Only the unambiguous ones; a lone S, M or L is too easy to misread.
-        bare_size = re.search(r"\b(XXXL|XXL|XL|XXS|XS)\b", working, re.I)
+        bare_size = re.search(r"\b(XXXL|XXL|XL|XXS|XS|W\d{2}|US\s?\d{1,2}(?:\.5)?)\b", working, re.I)
         if bare_size:
             parsed["size"] = bare_size.group(1).upper()
             working = working[:bare_size.start()] + " " + working[bare_size.end():]

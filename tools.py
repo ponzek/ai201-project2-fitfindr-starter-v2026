@@ -94,8 +94,8 @@ def missing_kinds(description: str) -> list[str]:
 def _word_weights(words: list[str], listings: list[dict]) -> dict:
     """
     Web app: rarer words count more. "white" appears in many listings, so it
-    shouldn't outweigh "blazer", which appears in two. A word in 3 or fewer
-    listings counts triple, in 8 or fewer double, otherwise once.
+    shouldn't outweigh "blazer", which appears in only a few. A word in 2% of
+    listings or fewer counts triple, in 6% or fewer double, otherwise once.
     """
     weights = {}
     for w in words:
@@ -104,9 +104,10 @@ def _word_weights(words: list[str], listings: list[dict]) -> dict:
             if w in f"{item.get('title', '')} {item.get('description', '')} "
                     f"{' '.join(item.get('style_tags', []))} {' '.join(item.get('colors', []))}".lower()
         )
-        if appears_in <= 3:
+        share = appears_in / max(len(listings), 1)
+        if share <= 0.02:
             weights[w] = 3
-        elif appears_in <= 8:
+        elif share <= 0.06:
             weights[w] = 2
         else:
             weights[w] = 1
@@ -172,7 +173,16 @@ def search_listings(
                 word_score += 1
             score += word_score * weights[w]
 
+        # The exact item word you typed, in the listing's title, counts most:
+        # "navy cardigan" should put a cardigan above a navy sweater dress.
+        for w in words:
+            if w in catalog_words.ALL_CLOTHING_WORDS and w in item_title:
+                score += 20
+
         # A matching color, or a close relative of it, ranks the item higher.
+        # Kept smaller than a matching item word, so color breaks ties between
+        # the right kind of item instead of beating it ("navy cardigan" should
+        # be a cardigan first, navy second).
         if any(c in item_colors for c in wanted_colors):
             score += 6
 

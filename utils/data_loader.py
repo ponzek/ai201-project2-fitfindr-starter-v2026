@@ -32,7 +32,16 @@ def load_listings() -> list[dict]:
     """
     path = os.path.join(_DATA_DIR, "listings.json")
     with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
+        listings = json.load(f)
+
+    # Web app: a larger catalog on top of the original 40 (see
+    # data/make_extra_listings.py). The originals come first, so anything
+    # tied to them, like the capstone tests, finds them as before.
+    extra = os.path.join(_DATA_DIR, "listings_extra.json")
+    if os.path.exists(extra):
+        with open(extra, "r", encoding="utf-8") as f:
+            listings += json.load(f)
+    return listings
 
 
 def load_wardrobe_schema() -> dict:

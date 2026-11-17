@@ -107,6 +107,16 @@ COLORS = {
 
 # ── helpers ──────────────────────────────────────────────────────────────────
 
+# Every single clothing word, plus plurals, for quick "is this a clothing word?" checks.
+ALL_CLOTHING_WORDS = {
+    form
+    for words in CLOTHING.values()
+    for phrase in words
+    for word in phrase.split()
+    for form in (word, word + "s", word + "es")
+    if len(word) > 2
+}
+
 def _forms(word: str) -> set[str]:
     """A word plus its plural, so 'boot' and 'boots' both match."""
     return {word, word + "s", word + "es"}
